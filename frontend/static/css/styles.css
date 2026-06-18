@@ -1,0 +1,90 @@
+/* Global styles for USETAI website
+   - The canvas element is full-screen and placed behind the content.
+   - Overlay content uses high z-index and readable colors.
+*/
+
+:root{
+  --bg-color: #0b0b0d;
+  --overlay-bg: rgba(0,0,0,0.35);
+  --accent: #7de37a;
+  --muted: #cbd5e1;
+  --max-width: 980px;
+  --glass-blur: 6px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+body{
+  background: var(--bg-color);
+  color: var(--muted);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Canvas fills the viewport */
+#binary-canvas{
+  position:fixed;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+/* Content overlay above the animation */
+.overlay{
+  position:relative;
+  z-index:2;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 48px 24px;
+  pointer-events: auto;
+}
+
+/* hero */
+.hero{
+  text-align:center;
+  padding:3rem 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));
+  border-radius: 12px;
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+}
+.hero h1{
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: #e6ffee;
+  margin:0 0 .5rem 0;
+  letter-spacing: -0.02em;
+}
+.hero .tagline{
+  color: #bfe9c6;
+  margin:0 0 1rem 0;
+}
+.cta{
+  display:inline-block;
+  padding:.6rem 1.1rem;
+  background: linear-gradient(90deg,#3ad97a,#66f0b4);
+  color:#00110a;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+}
+
+/* main content */
+.main-content{
+  margin-top: 2rem;
+  display:grid;
+  gap:1.5rem;
+  grid-template-columns: 1fr;
+}
+.features ul{list-style: none; padding:0; margin:0; display:grid; gap:.6rem;}
+.features li{background:var(--overlay-bg); padding:12px; border-radius:8px; color:var(--muted)}
+
+/* footer */
+.site-footer{margin-top:2.5rem; text-align:center; color:#8ea99a;}
+
+/* Accessibility: ensure content has readable contrast */
+@media (min-width:800px){
+  .main-content{grid-template-columns: 1fr 1fr;}
+}
