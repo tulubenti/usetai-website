@@ -14,11 +14,18 @@
       <header class="hero">
         <h1>USETAI International Technology</h1>
         <p class="tagline">Solving tomorrow's challenges with human-centered artificial intelligence</p>
-        <a class="cta" href="#about">Learn more</a>
       </header>
 
-      <main id="about" class="main-content">
-        <section class="mission">
+      <!-- Tab Navigation -->
+      <nav class="tab-navigation">
+        <button class="tab-button active" data-tab="mission">Our Mission</button>
+        <button class="tab-button" data-tab="initiatives">Initiatives</button>
+        <button class="tab-button" data-tab="contact">Contact</button>
+      </nav>
+
+      <main class="main-content">
+        <!-- Mission Tab -->
+        <section id="mission-tab" class="tab-content active">
           <h2>Our Mission</h2>
           <p>
             USETAI is a research-first startup building scalable, ethical AI systems
@@ -26,20 +33,52 @@
             systems thinking, robust ML, and practical engineering to deliver solutions
             that matter.
           </p>
+          <p>
+            Our vision is to create AI that empowers individuals and organizations to 
+            reach their full potential while maintaining human agency and control.
+          </p>
         </section>
 
-        <section class="features">
+        <!-- Initiatives Tab -->
+        <section id="initiatives-tab" class="tab-content">
           <h2>Sample Initiatives</h2>
-          <ul>
-            <li><strong>Climate-Assist:</strong> Decision-support for climate adaptation planning.</li>
-            <li><strong>Health Navigator:</strong> AI triage and workflow optimization for clinics.</li>
-            <li><strong>Future Skills:</strong> Tools that help humans learn and adapt to new work.</li>
-          </ul>
+          <div class="initiatives-grid">
+            <div class="initiative-card">
+              <h3>Climate-Assist</h3>
+              <p>Decision-support systems for climate adaptation planning. We help organizations understand and prepare for climate-related challenges through AI-powered analytics and scenario modeling.</p>
+            </div>
+            <div class="initiative-card">
+              <h3>Health Navigator</h3>
+              <p>AI triage and workflow optimization for clinics. Improves patient outcomes by streamlining diagnostic processes and helping healthcare providers allocate resources more effectively.</p>
+            </div>
+            <div class="initiative-card">
+              <h3>Future Skills</h3>
+              <p>Tools that help humans learn and adapt to new work. Personalized learning pathways that prepare individuals for the evolving job market and skill requirements.</p>
+            </div>
+            <div class="initiative-card">
+              <h3>Research Lab</h3>
+              <p>Cutting-edge AI research focused on interpretability, robustness, and human-AI collaboration. We publish our findings and contribute to the open-source community.</p>
+            </div>
+          </div>
         </section>
 
-        <section class="contact">
-          <h2>Get in touch</h2>
-          <p>Email: <a href="mailto:hello@usetai.example">hello@usetai.example</a></p>
+        <!-- Contact Tab -->
+        <section id="contact-tab" class="tab-content">
+          <h2>Get in Touch</h2>
+          <div class="contact-info">
+            <p>
+              <strong>Email:</strong> <a href="mailto:hello@usetai.example">hello@usetai.example</a>
+            </p>
+            <p>
+              <strong>General Inquiries:</strong> For partnership opportunities, collaborations, or general questions about our work.
+            </p>
+            <p>
+              <strong>Research:</strong> Interested in our research? We're always looking for talented collaborators and advisors.
+            </p>
+            <p>
+              <strong>Stay Updated:</strong> Follow us for the latest news and updates on our initiatives and research.
+            </p>
+          </div>
         </section>
       </main>
 
@@ -49,5 +88,6 @@
     </div>
 
     <script src="/static/js/animation.js"></script>
+    <script src="/static/js/tabs.js"></script>
   </body>
 </html>
