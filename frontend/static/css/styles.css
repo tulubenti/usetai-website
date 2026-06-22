@@ -1,22 +1,27 @@
 /* Global styles for USETAI website
-   - The canvas element is full-screen and placed behind the content.
-   - Overlay content uses high z-index and readable colors.
+   - Green background with enhanced visibility
+   - Diagonal animation from lower-left to upper-right
+   - Tabbed content interface
 */
 
 :root{
-  --bg-color: #0b0b0d;
-  --overlay-bg: rgba(0,0,0,0.35);
-  --accent: #7de37a;
-  --muted: #cbd5e1;
+  --bg-color: #1a4d2e;
+  --bg-gradient-light: #2d7a4a;
+  --overlay-bg: rgba(255,255,255,0.08);
+  --accent: #4ade80;
+  --accent-bright: #86efac;
+  --text-primary: #f0fdf4;
+  --text-secondary: #c7f0d8;
+  --muted: #a3e9c9;
   --max-width: 980px;
-  --glass-blur: 6px;
+  --glass-blur: 8px;
 }
 
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
 body{
-  background: var(--bg-color);
-  color: var(--muted);
+  background: linear-gradient(135deg, var(--bg-color) 0%, var(--bg-gradient-light) 100%);
+  color: var(--text-secondary);
   min-height:100vh;
   overflow-x:hidden;
   position:relative;
@@ -46,45 +51,196 @@ body{
 .hero{
   text-align:center;
   padding:3rem 1rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.05));
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.1));
   border-radius: 12px;
   backdrop-filter: blur(var(--glass-blur));
-  box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 .hero h1{
   font-size: clamp(1.8rem, 4vw, 3rem);
-  color: #e6ffee;
+  color: var(--text-primary);
   margin:0 0 .5rem 0;
   letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 .hero .tagline{
-  color: #bfe9c6;
+  color: var(--text-secondary);
   margin:0 0 1rem 0;
+  font-size: 1.1rem;
 }
-.cta{
-  display:inline-block;
-  padding:.6rem 1.1rem;
-  background: linear-gradient(90deg,#3ad97a,#66f0b4);
-  color:#00110a;
-  text-decoration:none;
-  border-radius:8px;
-  font-weight:600;
+
+/* Tab Navigation */
+.tab-navigation {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  padding-bottom: 1rem;
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  background: rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.tab-button:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: var(--accent);
+  color: var(--accent-bright);
+}
+
+.tab-button.active {
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  color: #0b3d1b;
+  border-color: var(--accent-bright);
+  box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-content h2 {
+  color: var(--text-primary);
+  margin-top: 0;
+  font-size: 2rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.tab-content p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+/* Initiatives Grid */
+.initiatives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.initiative-card {
+  background: rgba(255,255,255,0.08);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(var(--glass-blur));
+  transition: all 0.3s ease;
+}
+
+.initiative-card:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.2);
+  transform: translateY(-4px);
+}
+
+.initiative-card h3 {
+  color: var(--accent-bright);
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+.initiative-card p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Contact Info */
+.contact-info {
+  background: rgba(255,255,255,0.08);
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.contact-info p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.contact-info p strong {
+  color: var(--accent-bright);
+}
+
+.contact-info a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+  color: var(--accent-bright);
+  text-decoration: underline;
 }
 
 /* main content */
 .main-content{
-  margin-top: 2rem;
-  display:grid;
-  gap:1.5rem;
-  grid-template-columns: 1fr;
+  margin-top: 1rem;
+  animation: fadeIn 0.4s ease-in-out;
 }
-.features ul{list-style: none; padding:0; margin:0; display:grid; gap:.6rem;}
-.features li{background:var(--overlay-bg); padding:12px; border-radius:8px; color:var(--muted)}
 
 /* footer */
-.site-footer{margin-top:2.5rem; text-align:center; color:#8ea99a;}
+.site-footer{
+  margin-top: 3rem;
+  text-align: center;
+  color: rgba(255,255,255,0.6);
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.9rem;
+}
 
 /* Accessibility: ensure content has readable contrast */
 @media (min-width:800px){
-  .main-content{grid-template-columns: 1fr 1fr;}
+  .initiatives-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .tab-navigation {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    width: 100%;
+  }
+  
+  .initiatives-grid {
+    grid-template-columns: 1fr;
+  }
 }
