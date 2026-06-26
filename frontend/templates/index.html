@@ -3,87 +3,100 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>USETAI International Technology — Shaping the Future</title>
+    <title>USETAI International Technology — Shaping the Future of Human-Centered Tech</title>
+    <meta name="description" content="USETAI builds ethical, scalable AI systems to solve future human challenges — climate, health, skills and decision support for organisations and people." />
     <link rel="stylesheet" href="/static/css/styles.css" />
   </head>
   <body>
-    <!-- Canvas for binary animation sits behind the content -->
-    <canvas id="binary-canvas" aria-hidden="true"></canvas>
+    <!-- Canvas for diagonal animation sits behind the content -->
+    <canvas id="diagonal-canvas" aria-hidden="true"></canvas>
 
-    <div class="overlay">
-      <header class="hero">
-        <h1>USETAI International Technology</h1>
-        <p class="tagline">Solving tomorrow's challenges with human-centered artificial intelligence</p>
+    <div class="overlay" role="main">
+      <header class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+          <img class="logo" src="/static/img/logo.svg" alt="USETAI International Technology — logo" />
+          <h1 id="hero-title">USETAI International Technology</h1>
+          <p class="tagline">Human-centered AI for real-world resilience — from climate to health to workforce transformation.</p>
+          <p class="hero-strap">We design robust, interpretable systems that augment decision-making and prepare people & organisations for tomorrow’s challenges.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#initiatives-tab">Our Initiatives</a>
+            <a class="btn ghost" href="#contact-tab">Contact & Partnerships</a>
+          </div>
+        </div>
       </header>
 
       <!-- Tab Navigation -->
-      <nav class="tab-navigation">
-        <button class="tab-button active" data-tab="mission">Our Mission</button>
-        <button class="tab-button" data-tab="initiatives">Initiatives</button>
-        <button class="tab-button" data-tab="contact">Contact</button>
+      <nav class="tab-navigation" role="tablist" aria-label="Main site sections">
+        <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true">Our Mission</button>
+        <button class="tab-button" data-tab="initiatives" role="tab" aria-controls="initiatives-tab">Initiatives</button>
+        <button class="tab-button" data-tab="research" role="tab" aria-controls="research-tab">Research</button>
+        <button class="tab-button" data-tab="careers" role="tab" aria-controls="careers-tab">Careers</button>
+        <button class="tab-button" data-tab="contact" role="tab" aria-controls="contact-tab">Contact</button>
       </nav>
 
       <main class="main-content">
         <!-- Mission Tab -->
-        <section id="mission-tab" class="tab-content active">
+        <section id="mission-tab" class="tab-content active" role="tabpanel" aria-labelledby="mission-tab-button">
           <h2>Our Mission</h2>
-          <p>
-            USETAI is a research-first startup building scalable, ethical AI systems
-            that assist humans in complex decision-making and everyday life. We combine
-            systems thinking, robust ML, and practical engineering to deliver solutions
-            that matter.
-          </p>
-          <p>
-            Our vision is to create AI that empowers individuals and organizations to 
-            reach their full potential while maintaining human agency and control.
-          </p>
+          <p>USETAI develops trustworthy AI and systems engineering to anticipate and solve complex human problems. We focus on building solutions that are interpretable, robust, and designed with human agency at the centre.</p>
+          <p>We partner with governments, NGOs, healthcare providers and industry to deploy responsible technology that measurably improves outcomes — from climate adaptation and public health to skills development and decision support.</p>
         </section>
 
         <!-- Initiatives Tab -->
-        <section id="initiatives-tab" class="tab-content">
-          <h2>Sample Initiatives</h2>
+        <section id="initiatives-tab" class="tab-content" role="tabpanel" aria-labelledby="initiatives-tab-button">
+          <h2>Initiatives & Solutions</h2>
           <div class="initiatives-grid">
-            <div class="initiative-card">
+            <article class="initiative-card">
               <h3>Climate-Assist</h3>
-              <p>Decision-support systems for climate adaptation planning. We help organizations understand and prepare for climate-related challenges through AI-powered analytics and scenario modeling.</p>
-            </div>
-            <div class="initiative-card">
+              <p>AI-driven scenario analysis and decision support for adaptation planning. We blend geospatial data, climate modelling and risk analytics to help organisations prepare for uncertainty.</p>
+            </article>
+            <article class="initiative-card">
               <h3>Health Navigator</h3>
-              <p>AI triage and workflow optimization for clinics. Improves patient outcomes by streamlining diagnostic processes and helping healthcare providers allocate resources more effectively.</p>
-            </div>
-            <div class="initiative-card">
+              <p>Workflow optimisation and triage tools for clinics and community health systems — improving throughput, triage accuracy and patient outcomes while respecting privacy and clinician oversight.</p>
+            </article>
+            <article class="initiative-card">
               <h3>Future Skills</h3>
-              <p>Tools that help humans learn and adapt to new work. Personalized learning pathways that prepare individuals for the evolving job market and skill requirements.</p>
-            </div>
-            <div class="initiative-card">
+              <p>Personalised learning pathways and upskilling platforms that match individuals to evolving labour market needs and support lifelong career transitions.</p>
+            </article>
+            <article class="initiative-card">
               <h3>Research Lab</h3>
-              <p>Cutting-edge AI research focused on interpretability, robustness, and human-AI collaboration. We publish our findings and contribute to the open-source community.</p>
-            </div>
+              <p>Open research on interpretability, robustness and human-AI collaboration. We publish peer-reviewed work and share tools with the community.</p>
+            </article>
           </div>
         </section>
 
+        <!-- Research Tab -->
+        <section id="research-tab" class="tab-content" role="tabpanel" aria-labelledby="research-tab-button">
+          <h2>Research & Publications</h2>
+          <p>Our lab investigates safe, explainable, and resilient AI. We prioritise reproducible methods and open-source tooling to accelerate adoption of trustworthy practices.</p>
+          <ul>
+            <li><strong>Interpretability:</strong> methods that make model decisions transparent to domain experts.</li>
+            <li><strong>Robustness:</strong> systems designed to degrade gracefully and allow human overrides.</li>
+            <li><strong>Human-AI workflows:</strong> effective collaboration between people and models in high-stakes environments.</li>
+          </ul>
+        </section>
+
+        <!-- Careers Tab -->
+        <section id="careers-tab" class="tab-content" role="tabpanel" aria-labelledby="careers-tab-button">
+          <h2>Careers & Collaborations</h2>
+          <p>We are seeking engineers, researchers and partners who care deeply about impact and ethics. If you are interested in research, deployment or partnership, contact us.</p>
+          <p><a href="mailto:hello@usetai.example" class="btn primary">Apply / Contact</a></p>
+        </section>
+
         <!-- Contact Tab -->
-        <section id="contact-tab" class="tab-content">
+        <section id="contact-tab" class="tab-content" role="tabpanel" aria-labelledby="contact-tab-button">
           <h2>Get in Touch</h2>
           <div class="contact-info">
-            <p>
-              <strong>Email:</strong> <a href="mailto:hello@usetai.example">hello@usetai.example</a>
-            </p>
-            <p>
-              <strong>General Inquiries:</strong> For partnership opportunities, collaborations, or general questions about our work.
-            </p>
-            <p>
-              <strong>Research:</strong> Interested in our research? We're always looking for talented collaborators and advisors.
-            </p>
-            <p>
-              <strong>Stay Updated:</strong> Follow us for the latest news and updates on our initiatives and research.
-            </p>
+            <p><strong>Email:</strong> <a href="mailto:hello@usetai.example">hello@usetai.example</a></p>
+            <p><strong>Partnerships:</strong> For enterprise partnerships, pilot projects and investment inquiries, write to partnerships@usetai.example.</p>
+            <p><strong>Press & Media:</strong> media@usetai.example.</p>
+            <p><strong>Location:</strong> Remote-first. Global partnerships.</p>
           </div>
         </section>
       </main>
 
       <footer class="site-footer">
-        <small>© USETAI International Technology — Sample site</small>
+        <small>© USETAI International Technology — Building humane, responsible technology</small>
       </footer>
     </div>
 
