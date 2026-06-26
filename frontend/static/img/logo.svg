@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="USETAI logo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#00e09a"/>
+      <stop offset="1" stop-color="#38ffc9"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="240" rx="36" fill="#021820"/>
+  <g transform="translate(40,40)">
+    <circle cx="80" cy="40" r="30" fill="url(#g)"/>
+    <rect x="35" y="70" width="90" height="18" rx="6" fill="#0b2b28"/>
+    <text x="12" y="115" font-family="Inter,system-ui" font-size="20" fill="#e9fff7">USETAI</text>
+  </g>
+</svg>
