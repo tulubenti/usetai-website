@@ -3,104 +3,176 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>USETAI International Technology — Shaping the Future of Human-Centered Tech</title>
-    <meta name="description" content="USETAI builds ethical, scalable AI systems to solve future human challenges — climate, health, skills and decision support for organisations and people." />
+    <title>Engineering the Future with Artificial Intelligence — USETAI International Technology</title>
+    <meta name="description" content="USETAI develops ethical, scalable AI, ML, Generative AI, and Cloud solutions to solve climate, healthcare, cybersecurity, and public-sector challenges." />
+    <link rel="canonical" href="https://usetai.example/" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="USETAI — Engineering the Future with AI" />
+    <meta property="og:description" content="Enterprise AI, RAG, Data Science and Cloud solutions for governments and industry." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://usetai.example/" />
+    <meta property="og:image" content="/static/img/og-image.png" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="USETAI — Engineering the Future with AI" />
+    <meta name="twitter:description" content="Enterprise AI, RAG, Data Science and Cloud solutions for governments and industry." />
+    <link rel="preload" href="/static/css/styles.css" as="style" />
     <link rel="stylesheet" href="/static/css/styles.css" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "USETAI International Technology",
+      "url": "https://usetai.example/",
+      "logo": "https://usetai.example/static/img/logo.svg",
+      "sameAs": [
+        "https://www.linkedin.com/company/usetai/",
+        "https://github.com/tulubenti/usetai-website"
+      ],
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "email": "hello@usetai.example",
+        "contactType": "customer support",
+        "areaServed": "Global",
+        "availableLanguage": ["English"]
+      }]
+    }
+    </script>
   </head>
   <body>
-    <!-- Canvas for diagonal animation sits behind the content -->
+    <a class="skip-link" href="#main">Skip to content</a>
     <canvas id="diagonal-canvas" aria-hidden="true"></canvas>
 
-    <div class="overlay" role="main">
+    <div class="overlay" role="main" id="main">
       <header class="hero" aria-labelledby="hero-title">
         <div class="hero-inner">
-          <img class="logo" src="/static/img/logo.svg" alt="USETAI International Technology — logo" />
-          <h1 id="hero-title">USETAI International Technology</h1>
-          <p class="tagline">Human-centered AI for real-world resilience — from climate to health to workforce transformation.</p>
-          <p class="hero-strap">We design robust, interpretable systems that augment decision-making and prepare people & organisations for tomorrow’s challenges.</p>
+          <img class="logo" src="/static/img/logo.svg" alt="USETAI logo" width="72" height="72" />
+          <h1 id="hero-title">Engineering the Future with Artificial Intelligence</h1>
+          <p class="tagline">Building intelligent technologies that solve humanity’s greatest challenges — from climate and health to secure public services and scientific discovery.</p>
+          <p class="hero-strap">Enterprise-grade AI, responsible by design: interpretable, secure, and built to scale.</p>
           <div class="hero-actions">
-            <a class="btn primary" href="#initiatives-tab">Our Initiatives</a>
-            <a class="btn ghost" href="#contact-tab">Contact & Partnerships</a>
+            <a class="btn primary" href="#services">Explore AI Solutions</a>
+            <a class="btn ghost" href="#projects">View Case Studies</a>
+            <a class="btn outline" href="#contact">Book a Consultation</a>
+            <a class="btn ghost" href="#contact">Contact Our Experts</a>
           </div>
         </div>
       </header>
 
-      <!-- Tab Navigation -->
       <nav class="tab-navigation" role="tablist" aria-label="Main site sections">
-        <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true">Our Mission</button>
-        <button class="tab-button" data-tab="initiatives" role="tab" aria-controls="initiatives-tab">Initiatives</button>
+        <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true" id="mission-tab-button">Our Mission</button>
+        <button class="tab-button" data-tab="services" role="tab" aria-controls="services-tab">Services</button>
+        <button class="tab-button" data-tab="industries" role="tab" aria-controls="industries-tab">Industries</button>
         <button class="tab-button" data-tab="research" role="tab" aria-controls="research-tab">Research</button>
         <button class="tab-button" data-tab="careers" role="tab" aria-controls="careers-tab">Careers</button>
         <button class="tab-button" data-tab="contact" role="tab" aria-controls="contact-tab">Contact</button>
+        <button id="theme-toggle" class="icon-btn" aria-pressed="false" title="Toggle light/dark">🌗</button>
       </nav>
 
       <main class="main-content">
-        <!-- Mission Tab -->
+        <!-- Mission -->
         <section id="mission-tab" class="tab-content active" role="tabpanel" aria-labelledby="mission-tab-button">
-          <h2>Our Mission</h2>
-          <p>USETAI develops trustworthy AI and systems engineering to anticipate and solve complex human problems. We focus on building solutions that are interpretable, robust, and designed with human agency at the centre.</p>
-          <p>We partner with governments, NGOs, healthcare providers and industry to deploy responsible technology that measurably improves outcomes — from climate adaptation and public health to skills development and decision support.</p>
+          <h2>Who We Are</h2>
+          <p>USETAI is an innovation-driven company specializing in AI, Machine Learning, Cloud, Data Engineering, and Responsible AI. We partner with governments, healthcare providers, enterprises and researchers to deliver measurable outcomes at scale.</p>
+          <h3>Vision & Mission</h3>
+          <p>Vision: To become a global leader in AI innovation that improves lives and strengthens organizations.</p>
+          <p>Mission: Design intelligent systems that combine AI, Cloud, and Data Engineering with responsible governance to solve meaningful global challenges.</p>
         </section>
 
-        <!-- Initiatives Tab -->
-        <section id="initiatives-tab" class="tab-content" role="tabpanel" aria-labelledby="initiatives-tab-button">
-          <h2>Initiatives & Solutions</h2>
+        <!-- Services (summary) -->
+        <section id="services-tab" class="tab-content" role="tabpanel" aria-labelledby="services-tab-button">
+          <h2 id="services">Services & Solutions</h2>
+          <div class="services-grid">
+            <article class="service-card">
+              <h3>Generative AI & LLMs</h3>
+              <p>Enterprise copilots, document intelligence, prompt-engineering, multi-agent systems and safe LLM deployment.</p>
+              <ul><li>Business value: Faster knowledge work, improved productivity.</li><li>Tech: LangChain, OpenAI, Llama, Anthropic</li></ul>
+            </article>
+            <article class="service-card">
+              <h3>Retrieval-Augmented Generation</h3>
+              <p>Secure semantic search, embeddings, vector DBs and enterprise knowledge assistants.</p>
+            </article>
+            <article class="service-card">
+              <h3>Machine Learning & Data Science</h3>
+              <p>Forecasting, anomaly detection, experimentation, dashboards and model monitoring.</p>
+            </article>
+            <article class="service-card">
+              <h3>Cloud & Platform Engineering</h3>
+              <p>Scalable cloud-native platforms on AWS, Azure, GCP; containers and orchestration.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Industries -->
+        <section id="industries-tab" class="tab-content" role="tabpanel" aria-labelledby="industries-tab-button">
+          <h2>Industries</h2>
           <div class="initiatives-grid">
             <article class="initiative-card">
-              <h3>Climate-Assist</h3>
-              <p>AI-driven scenario analysis and decision support for adaptation planning. We blend geospatial data, climate modelling and risk analytics to help organisations prepare for uncertainty.</p>
+              <h3>Government</h3>
+              <p>Citizen services, fraud detection, emergency response, smart cities, digital transformation.</p>
             </article>
             <article class="initiative-card">
-              <h3>Health Navigator</h3>
-              <p>Workflow optimisation and triage tools for clinics and community health systems — improving throughput, triage accuracy and patient outcomes while respecting privacy and clinician oversight.</p>
+              <h3>Healthcare</h3>
+              <p>Clinical decision support, medical imaging, predictive diagnostics and hospital optimization.</p>
             </article>
             <article class="initiative-card">
-              <h3>Future Skills</h3>
-              <p>Personalised learning pathways and upskilling platforms that match individuals to evolving labour market needs and support lifelong career transitions.</p>
+              <h3>Finance</h3>
+              <p>Fraud analytics, AML, risk modelling, portfolio analytics and customer intelligence.</p>
             </article>
-            <article class="initiative-card">
-              <h3>Research Lab</h3>
-              <p>Open research on interpretability, robustness and human-AI collaboration. We publish peer-reviewed work and share tools with the community.</p>
-            </article>
+            <!-- more industry cards... -->
           </div>
         </section>
 
-        <!-- Research Tab -->
+        <!-- Research -->
         <section id="research-tab" class="tab-content" role="tabpanel" aria-labelledby="research-tab-button">
-          <h2>Research & Publications</h2>
-          <p>Our lab investigates safe, explainable, and resilient AI. We prioritise reproducible methods and open-source tooling to accelerate adoption of trustworthy practices.</p>
-          <ul>
-            <li><strong>Interpretability:</strong> methods that make model decisions transparent to domain experts.</li>
-            <li><strong>Robustness:</strong> systems designed to degrade gracefully and allow human overrides.</li>
-            <li><strong>Human-AI workflows:</strong> effective collaboration between people and models in high-stakes environments.</li>
-          </ul>
+          <h2>Research & Innovation</h2>
+          <p>Research areas: Explainable AI, Responsible AI, Autonomous Agents, Scientific ML, Federated Learning and AI Safety.</p>
         </section>
 
-        <!-- Careers Tab -->
+        <!-- Careers -->
         <section id="careers-tab" class="tab-content" role="tabpanel" aria-labelledby="careers-tab-button">
-          <h2>Careers & Collaborations</h2>
-          <p>We are seeking engineers, researchers and partners who care deeply about impact and ethics. If you are interested in research, deployment or partnership, contact us.</p>
-          <p><a href="mailto:hello@usetai.example" class="btn primary">Apply / Contact</a></p>
+          <h2>Careers</h2>
+          <p>Why join USETAI: Research culture, remote collaboration, learning opportunities and mission-driven work.</p>
         </section>
 
-        <!-- Contact Tab -->
+        <!-- Contact -->
         <section id="contact-tab" class="tab-content" role="tabpanel" aria-labelledby="contact-tab-button">
-          <h2>Get in Touch</h2>
-          <div class="contact-info">
-            <p><strong>Email:</strong> <a href="mailto:hello@usetai.example">hello@usetai.example</a></p>
-            <p><strong>Partnerships:</strong> For enterprise partnerships, pilot projects and investment inquiries, write to partnerships@usetai.example.</p>
-            <p><strong>Press & Media:</strong> media@usetai.example.</p>
-            <p><strong>Location:</strong> Remote-first. Global partnerships.</p>
-          </div>
+          <h2 id="contact">Contact Us</h2>
+          <form id="contact-form" class="contact-form" method="post" action="/api/contact" novalidate>
+            <div class="form-grid">
+              <label><span class="label-text">Name</span><input name="name" type="text" required /></label>
+              <label><span class="label-text">Email</span><input name="email" type="email" required /></label>
+              <label><span class="label-text">Organization</span><input name="organization" type="text" /></label>
+              <label><span class="label-text">Industry</span><select name="industry"><option>Government</option><option>Healthcare</option><option>Finance</option></select></label>
+              <label class="full"><span class="label-text">Service Interest</span><input name="interest" type="text" /></label>
+              <label class="full"><span class="label-text">Message</span><textarea name="message" rows="4" required></textarea></label>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">Send message</button>
+              <p class="muted">We aim to reply within 2 business days. Your data will be handled following our Responsible AI & Privacy policies.</p>
+            </div>
+          </form>
         </section>
       </main>
 
-      <footer class="site-footer">
-        <small>© USETAI International Technology — Building humane, responsible technology</small>
+      <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+          <div class="company">
+            <img src="/static/img/logo.svg" alt="USETAI" width="48" height="48" />
+            <p>USETAI International Technology — Building humane, responsible technology.</p>
+          </div>
+          <nav class="footer-nav" aria-label="Footer">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Use</a>
+            <a href="/responsible-ai">Responsible AI</a>
+          </nav>
+          <small>© USETAI International Technology — All rights reserved.</small>
+        </div>
       </footer>
     </div>
 
-    <script src="/static/js/animation.js"></script>
-    <script src="/static/js/tabs.js"></script>
+    <script src="/static/js/animation.js" defer></script>
+    <script src="/static/js/tabs.js" defer></script>
+    <script src="/static/js/main.js" defer></script>
   </body>
 </html>
