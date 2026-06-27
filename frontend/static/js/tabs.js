@@ -1,27 +1,39 @@
-// Simple accessible tabs implementation
+// Accessible tabs: supports arrow keys, Home/End, Enter/Space, hash navigation
 (function(){
-  const buttons = document.querySelectorAll('.tab-button');
-  function activate(button){
-    buttons.forEach(b=>{
-      const tab = b.getAttribute('data-tab');
-      const panel = document.getElementById(tab + '-tab');
-      b.classList.toggle('active', b === button);
-      b.setAttribute('aria-selected', String(b === button));
-      if (panel) panel.classList.toggle('active', b === button);
+  const buttons = Array.from(document.querySelectorAll('.tab-button'));
+  if (!buttons.length) return;
+  function activate(index, setHash = true){
+    buttons.forEach((b,i) => {
+      const panel = document.getElementById(b.getAttribute('data-tab') + '-tab');
+      const active = i === index;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-selected', String(active));
+      b.tabIndex = active ? 0 : -1;
+      if (panel) panel.classList.toggle('active', active);
     });
+    if (setHash) {
+      const tabName = buttons[index].getAttribute('data-tab');
+      try { history.replaceState(null, '', `#${tabName}`); } catch(e){}
+    }
   }
-  buttons.forEach(btn=>{
-    btn.addEventListener('click', ()=> activate(btn));
-    btn.addEventListener('keydown', (e)=>{
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
-        const idx = Array.from(buttons).indexOf(btn);
-        const next = (e.key === 'ArrowRight') ? (idx + 1) % buttons.length : (idx - 1 + buttons.length) % buttons.length;
-        buttons[next].focus();
+  function focusIndex(i){ buttons[i].focus(); }
+  buttons.forEach((btn, idx) => {
+    btn.addEventListener('click', ()=> activate(idx));
+    btn.addEventListener('keydown', (e) => {
+      if (['ArrowRight','ArrowLeft','Home','End'].includes(e.key)){
+        e.preventDefault();
+        let next = idx;
+        if (e.key === 'ArrowRight') next = (idx + 1) % buttons.length;
+        if (e.key === 'ArrowLeft') next = (idx - 1 + buttons.length) % buttons.length;
+        if (e.key === 'Home') next = 0;
+        if (e.key === 'End') next = buttons.length - 1;
+        focusIndex(next);
       }
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(btn); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(idx); }
     });
   });
-  // ensure initial state
-  const initial = document.querySelector('.tab-button.active') || buttons[0];
-  if (initial) activate(initial);
+  // initial activation from hash if available
+  const initialTab = location.hash ? location.hash.replace('#','') : null;
+  const startIndex = initialTab ? buttons.findIndex(b => b.getAttribute('data-tab') === initialTab) : buttons.findIndex(b=>b.classList.contains('active'));
+  activate(startIndex >= 0 ? startIndex : 0, false);
 })();
