@@ -28,19 +28,20 @@ body{
   -moz-osx-font-smoothing:grayscale;
 }
 
-/* Animated soft gradient overlay (subtle motion) */
+/* Animated soft gradient overlay (subtle motion)
+   Lower z-index and opacity so the canvas animation sits visibly above these layers */
 body::before{
   content:"";
   position:fixed;
   inset:0;
-  z-index:1;
-  background: radial-gradient(600px 400px at 10% 10%, rgba(11,167,186,0.06), transparent 10%),
-              radial-gradient(400px 300px at 90% 80%, rgba(56,255,201,0.04), transparent 10%),
-              linear-gradient(90deg, rgba(12,35,60,0.06), transparent 20%, rgba(6,10,20,0.12));
+  z-index:0; /* moved behind the canvas */
+  background: radial-gradient(600px 400px at 10% 10%, rgba(11,167,186,0.045), transparent 10%),
+              radial-gradient(400px 300px at 90% 80%, rgba(56,255,201,0.03), transparent 10%),
+              linear-gradient(90deg, rgba(12,35,60,0.04), transparent 20%, rgba(6,10,20,0.08));
   pointer-events:none;
   mix-blend-mode:overlay;
   animation: bgShift var(--bg-animation-duration) ease-in-out infinite;
-  opacity:0.95;
+  opacity:0.85;
 }
 @keyframes bgShift{
   0%{ transform:scale(1) translateY(0) rotate(0deg) }
@@ -53,15 +54,25 @@ body::after{
   content:"";
   position:fixed;
   inset:0;
-  z-index:2;
+  z-index:0; /* behind the canvas */
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='1' seed='1'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06' fill='%23000'/></svg>");
-  opacity:0.06;
+  opacity:0.04; /* slightly reduced so animation is visible */
   pointer-events:none;
   mix-blend-mode:soft-light;
 }
 
-/* Canvas sits visually behind the overlay but above the gradients */
-#diagonal-canvas{ z-index:0; }
+/* Canvas sits visually between the decorative layers and the content
+   Increase z-index so particles are visible behind the content but above background overlays */
+#diagonal-canvas{
+  position:fixed;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  z-index:1; /* above body pseudo layers but behind overlay (z-index:3) */
+  pointer-events:none;
+  mix-blend-mode:screen; /* brighten and integrate with gradients */
+}
 
 /* Content overlay above the animation */
 .overlay{
