@@ -1,24 +1,41 @@
-// Diagonal Particles — performance-conscious, respects reduced motion
+// Diagonal Particles — density, palette, and additive glow tuned for a high-tech AI/ML look
 (function () {
-  // Respect user reduced-motion preference
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('diagonal-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
+
   let DPR = Math.max(1, window.devicePixelRatio || 1);
   let width = 0, height = 0;
   let particles = [];
-  const config = {
-    count: Math.max(40, Math.floor((window.innerWidth * window.innerHeight) / (1280*720) * 120)), // scale by viewport
-    speedMin: 160,
-    speedMax: 420,
-    sizeMin: 1,
-    sizeMax: 6,
+
+  // Tweakable controls:
+  const controls = {
+    densityMultiplier: 0.65,    // 0.0 to ~1.2 (lower = fewer particles)
+    minCount: 28,
+    maxCount: 260,
+    speedMin: 110,
+    speedMax: 380,
+    sizeMin: 0.8,
+    sizeMax: 5.5,
     angleDeg: -35,
-    colors: ['rgba(0,224,154,0.95)', 'rgba(56,255,201,0.9)', 'rgba(107,227,255,0.85)', 'rgba(60,120,255,0.65)']
+    palette: [
+      'rgba(0,224,154,0.95)',
+      'rgba(56,255,201,0.88)',
+      'rgba(107,227,255,0.82)',
+      'rgba(120,130,255,0.62)',
+      'rgba(180,100,255,0.42)'
+    ],
+    trailAlpha: 0.16,          // background cover alpha (lower = longer trails)
+    maxShadow: 28
   };
 
-  function initSize(){
+  function computeCount() {
+    const base = Math.floor((width * height) / (1280 * 720) * 120 * controls.densityMultiplier);
+    return Math.max(controls.minCount, Math.min(controls.maxCount, base));
+  }
+
+  function initSize() {
     DPR = Math.max(1, window.devicePixelRatio || 1);
     width = window.innerWidth;
     height = window.innerHeight;
@@ -30,47 +47,70 @@
     ctx.imageSmoothingEnabled = true;
   }
 
-  function createParticles(){
-    particles = new Array(config.count).fill(0).map(() => {
-      const size = Math.random() * (config.sizeMax - config.sizeMin) + config.sizeMin;
-      const speed = Math.random() * (config.speedMax - config.speedMin) + config.speedMin;
-      return { x: Math.random()*width, y: Math.random()*height, size:Math.round(size)+0.5, speed, color: config.colors[Math.floor(Math.random()*config.colors.length)], alpha: 0.8 + Math.random()*0.2 };
+  function createParticles() {
+    const count = computeCount();
+    particles = new Array(count).fill(0).map(() => {
+      const size = Math.random() * (controls.sizeMax - controls.sizeMin) + controls.sizeMin;
+      const speed = Math.random() * (controls.speedMax - controls.speedMin) + controls.speedMin;
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.max(0.6, size),
+        speed,
+        color: controls.palette[Math.floor(Math.random() * controls.palette.length)],
+        alpha: 0.6 + Math.random() * 0.35,
+        rot: Math.random() * Math.PI * 2
+      };
     });
   }
 
-  const angleRad = (config.angleDeg * Math.PI)/180;
-  function step(dt){
-    // gentle clear to create trailing impression
-    ctx.fillStyle = 'rgba(5,8,15,0.18)';
-    ctx.fillRect(0,0,width,height);
+  const angleRad = (controls.angleDeg * Math.PI) / 180;
 
-    for (let p of particles){
+  function step(dt) {
+    // gentle cover fill for trailing effect
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = `rgba(6,10,18,${controls.trailAlpha})`;
+    ctx.fillRect(0, 0, width, height);
+
+    // set additive for glowing particles
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (let p of particles) {
       ctx.save();
       ctx.globalAlpha = p.alpha;
       ctx.fillStyle = p.color;
-      ctx.shadowBlur = Math.min(20, p.size * 3);
+      ctx.shadowBlur = Math.min(controls.maxShadow, p.size * 4);
       ctx.shadowColor = p.color;
-      // draw glowing particle
+
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
 
-      const vx = Math.cos(angleRad) * p.speed * (dt/1000);
-      const vy = Math.sin(angleRad) * p.speed * (dt/1000);
-      p.x += vx; p.y += vy;
-      if (p.x > width + 40 || p.x < -40 || p.y > height + 40 || p.y < -40){
-        // respawn along edge with some bias
-        if (Math.random() < 0.6){ p.x = Math.random()*width; p.y = (Math.random()<0.5)? -20 : height + 20; }
-        else { p.x = (Math.random() < 0.5) ? -20 : width + 20; p.y = Math.random()*height; }
-        p.alpha = 0.7 + Math.random()*0.3;
+      const vx = Math.cos(angleRad) * p.speed * (dt / 1000);
+      const vy = Math.sin(angleRad) * p.speed * (dt / 1000);
+      p.x += vx;
+      p.y += vy;
+
+      if (p.x > width + 60 || p.x < -60 || p.y > height + 60 || p.y < -60) {
+        if (Math.random() < 0.65) {
+          p.x = Math.random() * width;
+          p.y = (Math.random() < 0.5) ? -20 : height + 20;
+        } else {
+          p.x = (Math.random() < 0.5) ? -20 : width + 20;
+          p.y = Math.random() * height;
+        }
+        p.alpha = 0.55 + Math.random() * 0.4;
       }
     }
+
+    // reset composite op to default for other drawing
+    ctx.globalCompositeOperation = 'source-over';
   }
 
   let last = performance.now(), raf = null;
-  function loop(now){
-    const dt = Math.min(50, now - last);
+  function loop(now) {
+    const dt = Math.min(60, now - last);
     step(dt);
     last = now;
     raf = requestAnimationFrame(loop);
@@ -79,12 +119,20 @@
   let resizeTimeout = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(()=>{ initSize(); createParticles(); }, 120);
+    resizeTimeout = setTimeout(() => {
+      initSize();
+      createParticles();
+    }, 140);
   });
 
   initSize();
   createParticles();
   raf = requestAnimationFrame(loop);
 
-  window.USETAI_DIAGONAL_ANIM = { stop: () => { if (raf) cancelAnimationFrame(raf); raf = null; }, start: () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); } } };
+  window.USETAI_DIAGONAL_ANIM = {
+    stop: () => { if (raf) cancelAnimationFrame(raf); raf = null; },
+    start: () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); } },
+    setDensity: (v) => { controls.densityMultiplier = Math.max(0, Number(v) || 0.5); createParticles(); },
+    setPalette: (arr) => { if (Array.isArray(arr) && arr.length) controls.palette = arr; createParticles(); }
+  };
 })();
