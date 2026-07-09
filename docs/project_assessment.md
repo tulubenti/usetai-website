@@ -248,7 +248,7 @@ Flask>=2.0
   ```
   requirements/
   ├── base.txt        # Core: Flask>=3.0, Jinja2
-  ├���─ dev.txt         # -r base.txt + pytest, black, flake8
+  ├── dev.txt         # -r base.txt + pytest, black, flake8
   └── prod.txt        # -r base.txt + gunicorn for production
   ```
 - Or consolidate to single `requirements.txt` with clear sections and comments
