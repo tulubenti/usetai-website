@@ -6,11 +6,27 @@ from typing import Dict, Tuple, Any
 from flask import Flask, render_template, jsonify, request
 
 # Local site data (kept in a separate module)
+# Support multiple import patterns so the app can be run as a package or as a script.
 try:
+    # Preferred package-relative import when running as a module (python -m backend.app)
     from . import data as site_data  # backend/data.py (added)
 except Exception:
-    # If package import fails (running as script), try relative import
-    import backend.data as site_data  # type: ignore
+    # If package import fails (running as script or installed differently), try a few fallbacks
+    try:
+        # First try importing as an absolute package name
+        import importlib
+
+        site_data = importlib.import_module("backend.data")
+    except Exception:
+        # Final fallback: load the data.py file directly from the same directory
+        import importlib.util
+
+        module_path = os.path.join(os.path.dirname(__file__), "data.py")
+        spec = importlib.util.spec_from_file_location("backend.data", module_path)
+        site_data = importlib.util.module_from_spec(spec)
+        if spec.loader is None:
+            raise ImportError(f"Unable to load site data from {module_path}")
+        spec.loader.exec_module(site_data)
 
 # Configuration constants
 DEFAULT_HOST: str = "127.0.0.1"
