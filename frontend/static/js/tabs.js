@@ -3,6 +3,7 @@
   if (!buttons.length) return;
 
   const panels = buttons.map((button) => document.getElementById(`${button.getAttribute("data-tab")}-tab`));
+  const panelAnimationTimers = new WeakMap();
 
   function activate(index, setHash = true, focusPanel = false) {
     buttons.forEach((button, i) => {
@@ -15,7 +16,10 @@
         panel.classList.toggle("active", isActive);
         panel.classList.toggle("entering", isActive);
         if (isActive) {
-          setTimeout(() => panel.classList.remove("entering"), 350);
+          const previousTimer = panelAnimationTimers.get(panel);
+          if (previousTimer) clearTimeout(previousTimer);
+          const nextTimer = setTimeout(() => panel.classList.remove("entering"), 350);
+          panelAnimationTimers.set(panel, nextTimer);
           if (focusPanel) {
             panel.tabIndex = -1;
             panel.focus({ preventScroll: true });
@@ -30,6 +34,9 @@
         history.replaceState(null, "", `#${tabName}`);
       } catch (e) {}
     }
+
+    const activeTabName = buttons[index].getAttribute("data-tab");
+    document.dispatchEvent(new CustomEvent("tab:activated", { detail: { tabName: activeTabName } }));
   }
 
   function moveAndActivate(index) {

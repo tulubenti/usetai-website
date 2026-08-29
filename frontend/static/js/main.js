@@ -23,11 +23,23 @@ function setupFormEnhancements(form) {
     email: form.querySelector('[name="email"]'),
     message: form.querySelector('[name="message"]'),
   };
+  const requiredFields = ["name", "email", "message"];
   const progressBar = document.getElementById("form-progress-bar");
   const charCount = document.getElementById("message-char-count");
   const statusRegion = document.getElementById("form-status");
 
-  if (fields.name) fields.name.focus();
+  const contactPanel = form.closest(".tab-content");
+  const focusNameField = () => {
+    if (fields.name && contactPanel && contactPanel.classList.contains("active")) {
+      fields.name.focus();
+    }
+  };
+  focusNameField();
+  document.addEventListener("tab:activated", (event) => {
+    if (event.detail && event.detail.tabName === "contact") {
+      focusNameField();
+    }
+  });
 
   const validateField = (fieldName) => {
     const field = fields[fieldName];
@@ -62,11 +74,26 @@ function setupFormEnhancements(form) {
   };
 
   const updateFormState = () => {
-    const allValid = ["name", "email", "message"].every(validateField);
-    const filledCount = ["name", "email", "message"].filter((key) => fields[key] && fields[key].value.trim().length > 0).length;
+    const allValid = requiredFields.every(validateField);
+    const filledCount = requiredFields.filter((key) => fields[key] && fields[key].value.trim().length > 0).length;
     if (progressBar) progressBar.style.width = `${(filledCount / 3) * 100}%`;
     if (submitBtn) submitBtn.disabled = !allValid;
     return allValid;
+  };
+
+  const clearValidationUI = () => {
+    Object.keys(fields).forEach((fieldName) => {
+      const field = fields[fieldName];
+      if (!field) return;
+      field.classList.remove("is-invalid", "is-valid");
+      const label = field.closest("label");
+      if (label) label.classList.remove("is-valid");
+      const feedback = form.querySelector(`[data-feedback-for="${fieldName}"]`);
+      if (feedback) {
+        feedback.textContent = "";
+        feedback.classList.remove("visible");
+      }
+    });
   };
 
   Object.keys(fields).forEach((fieldName) => {
@@ -96,6 +123,7 @@ function setupFormEnhancements(form) {
     const originalText = submitBtn ? submitBtn.textContent : "";
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
+    let wasSuccessful = false;
 
     if (submitBtn) {
       submitBtn.disabled = true;
@@ -116,6 +144,10 @@ function setupFormEnhancements(form) {
         if (statusRegion) statusRegion.textContent = "Form submitted successfully.";
         form.reset();
         if (charCount) charCount.textContent = "0 / 1000";
+        if (progressBar) progressBar.style.width = "0%";
+        clearValidationUI();
+        if (submitBtn) submitBtn.disabled = true;
+        wasSuccessful = true;
       } else {
         showNotification((data && data.message) || "Failed to send message, please try again later.", "error");
         if (statusRegion) statusRegion.textContent = "Failed to submit form.";
@@ -129,7 +161,7 @@ function setupFormEnhancements(form) {
         submitBtn.classList.remove("is-loading");
         submitBtn.textContent = originalText;
       }
-      updateFormState();
+      if (!wasSuccessful) updateFormState();
     }
   });
 }
@@ -192,7 +224,7 @@ function setupAnchorLinks() {
       e.preventDefault();
       const target = document.querySelector(href);
       if (target && window.UIUtils) {
-        UIUtils.smoothScrollTo(target, 100);
+        window.UIUtils.smoothScrollTo(target, 100);
       }
     });
   });
@@ -218,7 +250,7 @@ function setupRevealAnimations(prefersReducedMotion) {
     return;
   }
 
-  UIUtils.observeElements(".reveal-item", (entry) => {
+  window.UIUtils.observeElements(".reveal-item", (entry) => {
     entry.target.classList.add("is-visible");
   }, { threshold: 0.15 });
 }
@@ -230,7 +262,7 @@ function setupHeroParallax(prefersReducedMotion) {
     const offset = Math.min(window.scrollY * 0.2, 30);
     root.style.setProperty("--parallax-offset", `${offset}px`);
   };
-  const onScroll = UIUtils.rafThrottle(updateParallax);
+  const onScroll = window.UIUtils.rafThrottle(updateParallax);
   window.addEventListener("scroll", onScroll, { passive: true });
   updateParallax();
 }
@@ -238,12 +270,12 @@ function setupHeroParallax(prefersReducedMotion) {
 function setupScrollTop(button) {
   if (!button || !window.UIUtils) return;
   const toggle = () => button.classList.toggle("visible", window.scrollY > 400);
-  const onScroll = UIUtils.debounce(() => requestAnimationFrame(toggle), 40);
+  const onScroll = window.UIUtils.rafThrottle(toggle);
   window.addEventListener("scroll", onScroll, { passive: true });
   toggle();
 
   button.addEventListener("click", () => {
-    UIUtils.smoothScrollTo(document.body, 0);
+    window.UIUtils.smoothScrollTo(document.body, 0);
   });
 }
 

@@ -523,6 +523,7 @@ body::after {
 .reveal-item {
   opacity: 0;
   transform: translateY(18px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
 
 .reveal-item.is-visible {
@@ -683,6 +684,7 @@ body::after {
 
 #contact-submit.is-loading::after {
   content: '';
+  display: inline-block;
   width: 14px;
   height: 14px;
   margin-left: 0.5rem;
@@ -694,6 +696,8 @@ body::after {
 
 #contact-submit.is-loading::before {
   opacity: 1;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+  background-size: 220% 100%;
   animation: shimmer 1.2s ease-in-out infinite;
 }
 
