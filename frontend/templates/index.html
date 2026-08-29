@@ -66,11 +66,12 @@
 
       <nav class="tab-navigation" role="tablist" aria-label="Main site sections">
         <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true" id="mission-tab-button">Our Mission</button>
-        <button class="tab-button" data-tab="services" role="tab" aria-controls="services-tab">Services</button>
-        <button class="tab-button" data-tab="industries" role="tab" aria-controls="industries-tab">Industries</button>
-        <button class="tab-button" data-tab="research" role="tab" aria-controls="research-tab">Research</button>
-        <button class="tab-button" data-tab="careers" role="tab" aria-controls="careers-tab">Careers</button>
-        <button class="tab-button" data-tab="contact" role="tab" aria-controls="contact-tab">Contact</button>
+        <button class="tab-button" data-tab="services" role="tab" aria-controls="services-tab" aria-selected="false" id="services-tab-button">Services</button>
+        <button class="tab-button" data-tab="industries" role="tab" aria-controls="industries-tab" aria-selected="false" id="industries-tab-button">Industries</button>
+        <button class="tab-button" data-tab="research" role="tab" aria-controls="research-tab" aria-selected="false" id="research-tab-button">Research</button>
+        <button class="tab-button" data-tab="careers" role="tab" aria-controls="careers-tab" aria-selected="false" id="careers-tab-button">Careers</button>
+        <button class="tab-button" data-tab="projects" role="tab" aria-controls="projects-tab" aria-selected="false" id="projects-tab-button">Case Studies</button>
+        <button class="tab-button" data-tab="contact" role="tab" aria-controls="contact-tab" aria-selected="false" id="contact-tab-button">Contact</button>
         <button id="theme-toggle" class="icon-btn" aria-pressed="false" title="Toggle light/dark">🌗</button>
       </nav>
 
@@ -120,13 +121,60 @@
         <!-- Research -->
         <section id="research-tab" class="tab-content" role="tabpanel" aria-labelledby="research-tab-button">
           <h2>Research & Innovation</h2>
-          <p>Research areas: Explainable AI, Responsible AI, Autonomous Agents, Scientific ML, Federated Learning and AI Safety.</p>
+          <p>At USETAI, research is central to everything we build. Our interdisciplinary teams explore the frontier of applied AI to deliver trustworthy, high-impact solutions.</p>
+          <div class="initiatives-grid">
+            <article class="initiative-card">
+              <h3>Explainable & Responsible AI</h3>
+              <p>Developing interpretable models and governance frameworks so organizations can trust, audit, and explain every AI decision.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Autonomous Agents</h3>
+              <p>Building goal-directed multi-agent systems that reason, plan, and act autonomously in complex enterprise environments.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Scientific Machine Learning</h3>
+              <p>Combining physics-informed neural networks with classical simulation to accelerate scientific discovery and engineering design.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Federated Learning</h3>
+              <p>Enabling privacy-preserving collaborative training across distributed data sources without centralising sensitive information.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>AI Safety</h3>
+              <p>Investigating alignment, robustness, and red-teaming techniques to ensure large-scale AI systems remain safe and controllable.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Generative AI Research</h3>
+              <p>Advancing retrieval-augmented generation, fine-tuning, and evaluation benchmarks for domain-specific language models.</p>
+            </article>
+          </div>
         </section>
 
         <!-- Careers -->
         <section id="careers-tab" class="tab-content" role="tabpanel" aria-labelledby="careers-tab-button">
-          <h2>Careers</h2>
-          <p>Why join USETAI: Research culture, remote collaboration, learning opportunities and mission-driven work.</p>
+          <h2>Careers at USETAI</h2>
+          <p>We are building a team of curious, mission-driven technologists. If you want to work on real-world AI challenges that matter, we want to hear from you.</p>
+          <div class="initiatives-grid">
+            <article class="initiative-card">
+              <h3>Research Culture</h3>
+              <p>Weekly research seminars, open publication policy, and dedicated time for exploration — we invest in your intellectual growth.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Remote-First Collaboration</h3>
+              <p>Distributed team spread across multiple time zones, with asynchronous-friendly workflows and annual in-person sprints.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Learning & Development</h3>
+              <p>Conference sponsorship, an internal learning library, and mentorship pairings with senior researchers and engineers.</p>
+            </article>
+            <article class="initiative-card">
+              <h3>Mission-Driven Work</h3>
+              <p>Every project we take on has measurable positive impact — from climate monitoring to healthcare diagnostics to public-sector modernisation.</p>
+            </article>
+          </div>
+          <p style="margin-top:2rem;text-align:center;">
+            <a class="btn primary" href="#contact" data-tab-link="contact">Get in touch about opportunities</a>
+          </p>
         </section>
 
         <!-- Projects / Case studies -->
