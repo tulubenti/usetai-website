@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("contact-form");
   const themeToggle = document.getElementById("theme-toggle");
   const scrollTopButton = document.getElementById("scroll-top");
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   setupThemeToggle(themeToggle);
   setupAnchorLinks();
