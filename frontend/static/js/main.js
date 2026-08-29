@@ -58,42 +58,49 @@ document.addEventListener("DOMContentLoaded", function () {
   // ===== Field-Level Validation Helper =====
   function validateFormFields(form, data) {
     let valid = true;
+    let firstErrorField = null;
 
     const nameInput = form.querySelector('[name="name"]');
     const emailInput = form.querySelector('[name="email"]');
     const messageInput = form.querySelector('[name="message"]');
 
     if (!data.name || data.name.trim().length === 0) {
-      setFieldError(nameInput, "Name is required.");
+      setFieldError(nameInput, "Name is required.", false);
+      if (!firstErrorField) firstErrorField = nameInput;
       valid = false;
     }
 
     if (!data.email || data.email.trim().length === 0) {
-      setFieldError(emailInput, "Email is required.");
+      setFieldError(emailInput, "Email is required.", false);
+      if (!firstErrorField) firstErrorField = emailInput;
       valid = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-      setFieldError(emailInput, "Please enter a valid email address.");
+      setFieldError(emailInput, "Please enter a valid email address.", false);
+      if (!firstErrorField) firstErrorField = emailInput;
       valid = false;
     }
 
     if (!data.message || data.message.trim().length === 0) {
-      setFieldError(messageInput, "Message is required.");
+      setFieldError(messageInput, "Message is required.", false);
+      if (!firstErrorField) firstErrorField = messageInput;
       valid = false;
     } else if (data.message.trim().length < 10) {
-      setFieldError(messageInput, "Message must be at least 10 characters.");
+      setFieldError(messageInput, "Message must be at least 10 characters.", false);
+      if (!firstErrorField) firstErrorField = messageInput;
       valid = false;
     }
 
+    if (firstErrorField) firstErrorField.focus();
     return valid;
   }
 
-  function setFieldError(field, message) {
+  function setFieldError(field, message, shouldFocus = true) {
     if (!field) return;
     const label = field.closest("label");
     if (label) label.classList.add("has-error");
     const errorEl = label && label.querySelector(".field-error");
     if (errorEl) errorEl.textContent = message;
-    field.focus();
+    if (shouldFocus) field.focus();
   }
 
   function clearFieldError(field) {
