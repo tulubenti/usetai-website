@@ -15,9 +15,10 @@ const UIUtils = (() => {
     if (!target) return;
     
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.scrollTo({
       top,
-      behavior: 'smooth'
+      behavior: reducedMotion ? 'auto' : 'smooth'
     });
   };
 
@@ -61,6 +62,21 @@ const UIUtils = (() => {
     return (...args) => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  /**
+   * Throttle function using requestAnimationFrame for scroll/paint-heavy handlers
+   */
+  const rafThrottle = (func) => {
+    let ticking = false;
+    return (...args) => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        func(...args);
+        ticking = false;
+      });
     };
   };
 
@@ -180,6 +196,7 @@ const UIUtils = (() => {
     smoothScrollTo,
     createRipple,
     debounce,
+    rafThrottle,
     throttle,
     observeElements,
     isInViewport,
