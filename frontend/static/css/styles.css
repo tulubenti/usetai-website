@@ -76,7 +76,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -192,6 +192,8 @@ body::after {
   position: relative;
   overflow: hidden;
   transition: all var(--transition-base);
+  transform: translateY(calc(var(--parallax-offset, 0px) * -0.12));
+  will-change: transform;
 }
 
 .hero::before {
@@ -277,7 +279,7 @@ body::after {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), border-color var(--transition-base), color var(--transition-base);
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -301,6 +303,8 @@ body::after {
   color: #000;
   box-shadow: 0 8px 24px rgba(0, 224, 154, 0.3);
   font-weight: 700;
+  background-size: 200% 200%;
+  animation: gradientFlow 8s ease infinite;
 }
 
 .btn.primary:hover {
@@ -398,10 +402,18 @@ body::after {
   display: none;
   animation: fadeInUp var(--transition-base) ease-out;
   min-height: 300px;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .tab-content.active {
   display: block;
+}
+
+.tab-content.entering {
+  animation: fadeInUp var(--transition-slow) ease-out;
 }
 
 @keyframes fadeInUp {
@@ -422,6 +434,7 @@ body::after {
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .tab-content h3 {
@@ -434,9 +447,10 @@ body::after {
 
 .tab-content p, .tab-content li {
   color: var(--text-secondary);
-  line-height: 1.8;
+  line-height: 1.75;
   font-size: 1rem;
   margin-bottom: 1rem;
+  letter-spacing: 0.01em;
 }
 
 .tab-content ul {
@@ -474,7 +488,7 @@ body::after {
   padding: 1.75rem;
   border-radius: var(--radius-lg);
   backdrop-filter: blur(10px);
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), background var(--transition-base), opacity var(--transition-base);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -488,20 +502,34 @@ body::after {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary), transparent);
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary), var(--accent-purple), var(--accent-primary));
+  background-size: 220% 100%;
   opacity: 0;
   transition: opacity var(--transition-base);
 }
 
 .service-card:hover, .initiative-card:hover, .project-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px) scale(1.01);
   border-color: rgba(56, 255, 201, 0.3);
-  box-shadow: 0 12px 40px rgba(56, 255, 201, 0.15);
+  box-shadow: 0 18px 44px rgba(56, 255, 201, 0.18), var(--shadow-md);
   background: rgba(56, 255, 201, 0.03);
 }
 
 .service-card:hover::before, .initiative-card:hover::before, .project-card:hover::before {
   opacity: 1;
+  animation: gradientFlow 3s linear infinite;
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: var(--stagger-delay, 0ms);
 }
 
 .service-card h3, .initiative-card h3, .project-card h3 {
@@ -564,6 +592,7 @@ body::after {
   color: var(--text-secondary);
   font-weight: 600;
   font-size: 0.95rem;
+  position: relative;
 }
 
 .label-text {
@@ -579,7 +608,7 @@ body::after {
   color: var(--text-primary);
   font-family: inherit;
   font-size: 1rem;
-  transition: all var(--transition-fast);
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   backdrop-filter: blur(10px);
 }
 
@@ -593,6 +622,83 @@ body::after {
   border-color: var(--accent-secondary);
   background: rgba(56, 255, 201, 0.08);
   box-shadow: 0 0 0 3px rgba(56, 255, 201, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-grid label.is-valid .label-text::after {
+  content: '✓';
+  color: var(--accent-primary);
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+
+.form-grid input.is-invalid,
+.form-grid select.is-invalid,
+.form-grid textarea.is-invalid {
+  border-color: #ff6e6e;
+  box-shadow: 0 0 0 3px rgba(255, 110, 110, 0.15);
+}
+
+.field-feedback {
+  font-size: 0.85rem;
+  min-height: 1.1rem;
+  margin-top: 0.35rem;
+  color: #ff9b9b;
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.field-feedback.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.char-count {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.form-progress {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.form-progress-bar {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  transition: width var(--transition-base);
+}
+
+#contact-submit.is-loading {
+  pointer-events: none;
+}
+
+#contact-submit.is-loading::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 0.5rem;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: rgba(0, 0, 0, 0.85);
+  animation: spin 700ms linear infinite;
+}
+
+#contact-submit.is-loading::before {
+  opacity: 1;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+  background-size: 220% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
 }
 
 .form-grid textarea {
@@ -669,6 +775,7 @@ body::after {
   font-weight: 500;
   transition: all var(--transition-base);
   position: relative;
+  padding: 2px 0;
 }
 
 .footer-nav a::after {
@@ -684,6 +791,7 @@ body::after {
 
 .footer-nav a:hover {
   color: var(--accent-secondary);
+  transform: translateY(-1px);
 }
 
 .footer-nav a:hover::after {
@@ -719,6 +827,84 @@ body::after {
   border-color: var(--accent-secondary);
   background: rgba(56, 255, 201, 0.1);
   transform: scale(1.05);
+}
+
+.scroll-top {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 1001;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--text-primary);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity var(--transition-base), transform var(--transition-base), background var(--transition-base);
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  background: rgba(56, 255, 201, 0.2);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -120% 0;
+  }
+  100% {
+    background-position: 120% 0;
+  }
+}
+
+@keyframes rippleEffect {
+  from {
+    transform: scale(0);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Focus Styles for Accessibility */
@@ -826,6 +1012,15 @@ textarea:focus {
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
+  .hero {
+    transform: none;
+  }
+
+  .reveal-item {
+    opacity: 1;
+    transform: none;
+  }
+
   *,
   *::before,
   *::after {

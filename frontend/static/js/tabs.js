@@ -1,39 +1,74 @@
-// Accessible tabs: supports arrow keys, Home/End, Enter/Space, hash navigation
-(function(){
-  const buttons = Array.from(document.querySelectorAll('.tab-button'));
+(function () {
+  const buttons = Array.from(document.querySelectorAll(".tab-button[role='tab']"));
   if (!buttons.length) return;
-  function activate(index, setHash = true){
-    buttons.forEach((b,i) => {
-      const panel = document.getElementById(b.getAttribute('data-tab') + '-tab');
-      const active = i === index;
-      b.classList.toggle('active', active);
-      b.setAttribute('aria-selected', String(active));
-      b.tabIndex = active ? 0 : -1;
-      if (panel) panel.classList.toggle('active', active);
-    });
-    if (setHash) {
-      const tabName = buttons[index].getAttribute('data-tab');
-      try { history.replaceState(null, '', `#${tabName}`); } catch(e){}
-    }
-  }
-  function focusIndex(i){ buttons[i].focus(); }
-  buttons.forEach((btn, idx) => {
-    btn.addEventListener('click', ()=> activate(idx));
-    btn.addEventListener('keydown', (e) => {
-      if (['ArrowRight','ArrowLeft','Home','End'].includes(e.key)){
-        e.preventDefault();
-        let next = idx;
-        if (e.key === 'ArrowRight') next = (idx + 1) % buttons.length;
-        if (e.key === 'ArrowLeft') next = (idx - 1 + buttons.length) % buttons.length;
-        if (e.key === 'Home') next = 0;
-        if (e.key === 'End') next = buttons.length - 1;
-        focusIndex(next);
+
+  const panels = buttons.map((button) => document.getElementById(`${button.getAttribute("data-tab")}-tab`));
+  const panelAnimationTimers = new WeakMap();
+
+  function activate(index, setHash = true, focusPanel = false) {
+    buttons.forEach((button, i) => {
+      const isActive = i === index;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-selected", String(isActive));
+      button.tabIndex = isActive ? 0 : -1;
+      const panel = panels[i];
+      if (panel) {
+        panel.classList.toggle("active", isActive);
+        panel.classList.toggle("entering", isActive);
+        if (isActive) {
+          const previousTimer = panelAnimationTimers.get(panel);
+          if (previousTimer) clearTimeout(previousTimer);
+          const nextTimer = setTimeout(() => panel.classList.remove("entering"), 350);
+          panelAnimationTimers.set(panel, nextTimer);
+          if (focusPanel) {
+            panel.tabIndex = -1;
+            panel.focus({ preventScroll: true });
+          }
+        }
       }
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(idx); }
+    });
+
+    if (setHash) {
+      const tabName = buttons[index].getAttribute("data-tab");
+      try {
+        history.replaceState(null, "", `#${tabName}`);
+      } catch (e) {}
+    }
+
+    const activeTabName = buttons[index].getAttribute("data-tab");
+    document.dispatchEvent(new CustomEvent("tab:activated", { detail: { tabName: activeTabName } }));
+  }
+
+  function moveAndActivate(index) {
+    buttons[index].focus();
+    activate(index);
+  }
+
+  buttons.forEach((button, index) => {
+    button.addEventListener("click", () => activate(index));
+    button.addEventListener("keydown", (event) => {
+      if (!["ArrowRight", "ArrowLeft", "Home", "End", "Enter", " "].includes(event.key)) return;
+      event.preventDefault();
+      if (event.key === "ArrowRight") return moveAndActivate((index + 1) % buttons.length);
+      if (event.key === "ArrowLeft") return moveAndActivate((index - 1 + buttons.length) % buttons.length);
+      if (event.key === "Home") return moveAndActivate(0);
+      if (event.key === "End") return moveAndActivate(buttons.length - 1);
+      activate(index, true, true);
     });
   });
-  // initial activation from hash if available
-  const initialTab = location.hash ? location.hash.replace('#','') : null;
-  const startIndex = initialTab ? buttons.findIndex(b => b.getAttribute('data-tab') === initialTab) : buttons.findIndex(b=>b.classList.contains('active'));
+
+  const tabLinks = document.querySelectorAll("[data-tab-link]");
+  tabLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const name = link.getAttribute("data-tab-link");
+      const idx = buttons.findIndex((button) => button.getAttribute("data-tab") === name);
+      if (idx >= 0) activate(idx);
+    });
+  });
+
+  const initialTab = location.hash ? location.hash.replace("#", "") : null;
+  const startIndex = initialTab
+    ? buttons.findIndex((button) => button.getAttribute("data-tab") === initialTab)
+    : buttons.findIndex((button) => button.classList.contains("active"));
   activate(startIndex >= 0 ? startIndex : 0, false);
 })();

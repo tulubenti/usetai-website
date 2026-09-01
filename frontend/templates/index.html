@@ -194,18 +194,22 @@
         <section id="contact-tab" class="tab-content" role="tabpanel" aria-labelledby="contact-tab-button">
           <h2 id="contact">Contact Us</h2>
           <form id="contact-form" class="contact-form" method="post" action="/api/contact" novalidate>
+            <div class="form-progress" aria-hidden="true">
+              <div class="form-progress-bar" id="form-progress-bar"></div>
+            </div>
             <div class="form-grid">
-              <label><span class="label-text">Name</span><input name="name" type="text" required /></label>
-              <label><span class="label-text">Email</span><input name="email" type="email" required /></label>
-              <label><span class="label-text">Organization</span><input name="organization" type="text" /></label>
-              <label><span class="label-text">Industry</span><select name="industry"><option>Government</option><option>Healthcare</option><option>Finance</option></select></label>
-              <label class="full"><span class="label-text">Service Interest</span><input name="interest" type="text" /></label>
-              <label class="full"><span class="label-text">Message</span><textarea name="message" rows="4" required></textarea></label>
+              <label><span class="label-text">Name</span><input name="name" type="text" required aria-required="true" autocomplete="name" /><span class="field-feedback" data-feedback-for="name" aria-live="polite"></span></label>
+              <label><span class="label-text">Email</span><input name="email" type="email" required aria-required="true" autocomplete="email" /><span class="field-feedback" data-feedback-for="email" aria-live="polite"></span></label>
+              <label><span class="label-text">Organization</span><input name="organization" type="text" autocomplete="organization" /></label>
+              <label><span class="label-text">Industry</span><select name="industry"><option value="government">Government</option><option value="healthcare">Healthcare</option><option value="finance">Finance</option><option value="other">Other</option></select></label>
+              <label class="full"><span class="label-text">Service Interest</span><input name="interest" type="text" autocomplete="off" /></label>
+              <label class="full"><span class="label-text">Message</span><textarea name="message" rows="4" required aria-required="true" maxlength="1000"></textarea><span class="field-feedback" data-feedback-for="message" aria-live="polite"></span><span class="char-count" id="message-char-count">0 / 1000</span></label>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn primary">Send message</button>
+              <button type="submit" class="btn primary" id="contact-submit">Send message</button>
               <p class="muted">We aim to reply within {{ contact.response_time if contact is defined else '2 business days' }}. Your data will be handled following our Responsible AI & Privacy policies.</p>
             </div>
+            <div id="form-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
           </form>
         </section>
       </main>
@@ -226,7 +230,10 @@
       </footer>
     </div>
 
+    <button id="scroll-top" class="scroll-top" aria-label="Scroll to top">↑</button>
+
     <script src="/static/js/animation.js" defer></script>
+    <script src="/static/js/utilities.js" defer></script>
     <script src="/static/js/tabs.js" defer></script>
     <script src="/static/js/main.js" defer></script>
   </body>
