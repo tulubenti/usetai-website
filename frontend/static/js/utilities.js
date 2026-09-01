@@ -26,7 +26,7 @@ const UIUtils = (() => {
    * Add ripple effect to elements
    */
   const createRipple = (element, event) => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     
     const rect = element.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);

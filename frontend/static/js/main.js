@@ -233,7 +233,7 @@ function setupAnchorLinks() {
 function setupButtonRipples() {
   document.querySelectorAll(".btn").forEach((btn) => {
     btn.addEventListener("click", function (e) {
-      if (window.UIUtils) UIUtils.createRipple(this, e);
+      if (window.UIUtils) window.UIUtils.createRipple(this, e);
     });
   });
 }
