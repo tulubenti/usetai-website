@@ -883,7 +883,8 @@ textarea:focus {
 }
 
 .form-grid label.has-error input:focus,
-.form-grid label.has-error textarea:focus {
+.form-grid label.has-error textarea:focus,
+.form-grid label.has-error select:focus {
   box-shadow: 0 0 0 3px rgba(255, 110, 110, 0.15);
 }
 
