@@ -27,7 +27,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "USETAI International Technology",
+      "name": "USETAI Technology",
       "url": "{{ site_url }}",
       "logo": "{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}",
       "sameAs": [
@@ -56,16 +56,16 @@
           <p class="tagline">{{ site_description }}</p>
           <p class="hero-strap">Enterprise-grade AI, responsible by design: interpretable, secure, and built to scale.</p>
           <div class="hero-actions">
-            <a class="btn primary" href="#services">Explore AI Solutions</a>
-            <a class="btn ghost" href="#projects">View Case Studies</a>
-            <a class="btn outline" href="#contact">Book a Consultation</a>
-            <a class="btn ghost" href="#contact">Contact Our Experts</a>
+            <a class="btn primary" href="#services" data-tab-link="services">Explore AI Solutions</a>
+            <a class="btn ghost" href="#projects" data-tab-link="projects">View Case Studies</a>
+            <a class="btn outline" href="#contact" data-tab-link="contact">Book a Consultation</a>
+            <a class="btn ghost" href="#contact" data-tab-link="contact">Contact Our Experts</a>
           </div>
         </div>
       </header>
 
       <nav class="tab-navigation" role="tablist" aria-label="Main site sections">
-        <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true" id="mission-tab-button">Our Mission</button>
+        <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true" id="mission-tab-button">Mission</button>
         <button class="tab-button" data-tab="services" role="tab" aria-controls="services-tab" aria-selected="false" id="services-tab-button">Services</button>
         <button class="tab-button" data-tab="industries" role="tab" aria-controls="industries-tab" aria-selected="false" id="industries-tab-button">Industries</button>
         <button class="tab-button" data-tab="research" role="tab" aria-controls="research-tab" aria-selected="false" id="research-tab-button">Research</button>
@@ -218,14 +218,14 @@
         <div class="footer-inner">
           <div class="company">
             <img src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI" width="200" height="128" />
-            <p>USETAI International Technology — Building humane, responsible technology.</p>
+            <p>USETAI Technology — Building humane, responsible technology.</p>
           </div>
           <nav class="footer-nav" aria-label="Footer">
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms of Use</a>
             <a href="/responsible-ai">Responsible AI</a>
           </nav>
-          <small>© USETAI International Technology — All rights reserved.</small>
+          <small>© USETAI Technology — All rights reserved.</small>
         </div>
       </footer>
     </div>

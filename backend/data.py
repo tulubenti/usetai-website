@@ -2,7 +2,7 @@
 # so it can be edited directly or replaced by a CMS later.
 
 SITE_INFO = {
-    "title": "Engineering the Future with Artificial Intelligence — USETAI International Technology",
+    "title": "Engineering the Future with Artificial Intelligence — USETAI Technology",
     "description": "USETAI develops ethical, scalable AI, ML, Generative AI, and Cloud solutions to solve climate, healthcare, cybersecurity, and public-sector challenges.",
     "url": "https://usetai.example/",
     "logo": "/static/img/og-image.png",

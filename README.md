@@ -1,6 +1,6 @@
-# USETAI International Technology — Website
+# USETAI Technology — Website
 
-This repository is a small website for USETAI International Technology (startup).
+This repository is a small website for USETAI Technology (startup).
 It uses a minimal Python Flask backend to serve a single-page frontend that
 features an animated diagonal particle background and an enterprise-ready homepage.
 

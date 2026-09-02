@@ -59,10 +59,12 @@
 
   const tabLinks = document.querySelectorAll("[data-tab-link]");
   tabLinks.forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
       const name = link.getAttribute("data-tab-link");
       const idx = buttons.findIndex((button) => button.getAttribute("data-tab") === name);
-      if (idx >= 0) activate(idx);
+      if (idx < 0) return;
+      event.preventDefault();
+      activate(idx);
     });
   });
 

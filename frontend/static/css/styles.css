@@ -283,6 +283,7 @@ body::after {
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .btn::before {
@@ -377,12 +378,18 @@ body::after {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 0.9rem;
+  touch-action: manipulation;
 }
 
 .tab-button:hover {
   color: var(--accent-secondary);
   background: rgba(56, 255, 201, 0.05);
   transform: translateY(-2px);
+}
+
+.tab-button:focus-visible {
+  outline: 3px solid rgba(56, 255, 201, 0.35);
+  outline-offset: 2px;
 }
 
 .tab-button.active {
@@ -821,6 +828,7 @@ body::after {
   justify-content: center;
   width: 44px;
   height: 44px;
+  touch-action: manipulation;
 }
 
 #theme-toggle:hover {
@@ -845,6 +853,7 @@ body::after {
   pointer-events: none;
   transform: translateY(8px);
   transition: opacity var(--transition-base), transform var(--transition-base), background var(--transition-base);
+  touch-action: manipulation;
 }
 
 .scroll-top.visible {
