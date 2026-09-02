@@ -350,10 +350,18 @@ body::after {
 }
 
 /* Tab Navigation */
-.tab-navigation {
+.tab-navigation-wrap {
   display: flex;
   gap: 0.5rem;
   margin: 2.5rem 0;
+  align-items: center;
+}
+
+.tab-navigation {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  flex: 1;
   flex-wrap: wrap;
   justify-content: center;
   border-bottom: 2px solid rgba(255, 255, 255, 0.08);
@@ -943,6 +951,11 @@ textarea:focus {
 
   .hero h1 {
     font-size: 1.75rem;
+  }
+
+  .tab-navigation-wrap {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .tab-navigation {

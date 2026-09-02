@@ -15,6 +15,8 @@
       if (panel) {
         panel.classList.toggle("active", isActive);
         panel.classList.toggle("entering", isActive);
+        panel.hidden = !isActive;
+        panel.setAttribute("aria-hidden", String(!isActive));
         if (isActive) {
           const previousTimer = panelAnimationTimers.get(panel);
           if (previousTimer) clearTimeout(previousTimer);

@@ -231,7 +231,7 @@ def contact() -> Tuple[Dict[str, Any], int]:
                 {
                     "status": "success",
                     "message": (
-                        "Thank you for contacting USETAI. "
+                        "Thank you for contacting USETAI Technology. "
                         "We will respond within 2 business days."
                     ),
                 }
