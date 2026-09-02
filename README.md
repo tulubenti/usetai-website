@@ -11,7 +11,7 @@ Quick start (development):
    - Windows (PowerShell): `.venv\\Scripts\\Activate.ps1`
 3. Install dependencies: `pip install -r requirements.txt`
 4. Run the backend (Flask): `python backend/app.py`
-5. Open http://127.0.0.1:8000 in your browser.
+5. Open http://127.0.0.1:5000 in your browser.
 
 Project layout:
 - backend/ : Flask application and Python code.
