@@ -132,6 +132,39 @@ def index() -> str:
         return render_error_page(500, "Failed to load landing page")
 
 
+@app.route("/privacy", methods=["GET"])
+def privacy_policy() -> str:
+    return render_info_page(
+        "Privacy Policy",
+        (
+            "USETAI Technology handles submitted contact information solely for "
+            "responding to business inquiries and service requests."
+        ),
+    )
+
+
+@app.route("/terms", methods=["GET"])
+def terms_of_use() -> str:
+    return render_info_page(
+        "Terms of Use",
+        (
+            "This website content is provided for informational purposes. "
+            "By using this site, you agree to lawful and responsible use."
+        ),
+    )
+
+
+@app.route("/responsible-ai", methods=["GET"])
+def responsible_ai() -> str:
+    return render_info_page(
+        "Responsible AI",
+        (
+            "USETAI Technology applies safety, explainability, privacy, and "
+            "governance practices across all AI delivery engagements."
+        ),
+    )
+
+
 @app.route("/health", methods=["GET"])
 def health() -> Tuple[Dict[str, str], int]:
     try:
@@ -255,6 +288,37 @@ def render_error_page(status_code: int, message: str) -> str:
                 <p>{message}</p>
                 <a href="/">Return to home</a>
             </div>
+        </body>
+        </html>
+        """
+    )
+
+
+def render_info_page(title: str, message: str) -> str:
+    return (
+        f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{title} | USETAI Technology</title>
+            <style>
+                body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+                        margin: 0; padding: 2rem; background: #f5f5f5; color: #111; }}
+                .page {{ max-width: 760px; margin: 0 auto;
+                         background: white; padding: 2rem; border-radius: 8px; }}
+                h1 {{ margin-top: 0; color: #0b2a52; }}
+                p {{ color: #2f3b4a; line-height: 1.65; }}
+                a {{ color: #0055cc; text-decoration: none; font-weight: 600; }}
+            </style>
+        </head>
+        <body>
+            <main class="page">
+                <h1>{title}</h1>
+                <p>{message}</p>
+                <a href="/">Return to home</a>
+            </main>
         </body>
         </html>
         """
