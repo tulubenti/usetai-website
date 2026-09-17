@@ -209,7 +209,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
         headers: { Accept: "application/json" },
         cache: "no-store",
       });
-      const payload = await response.json();
+      const payload = await readResponseData(response);
       const items = Array.isArray(payload[config.dataKey]) ? payload[config.dataKey] : [];
 
       if (!response.ok) {
@@ -347,7 +347,7 @@ function setupFormEnhancements(form) {
     const field = fields[fieldName];
     if (!field) return;
     field.addEventListener("input", updateFormState);
-    field.addEventListener("blur", () => validateField(fieldName, { announce: true }));
+    field.addEventListener("blur", () => validateField(fieldName));
   });
 
   if (fields.message && charCount) {
@@ -392,7 +392,7 @@ function setupFormEnhancements(form) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await resp.json();
+      const data = await readResponseData(resp);
 
       if (resp.ok && data.status === "success") {
         showNotification(data.message || "Message sent — thank you!", "success");
@@ -606,6 +606,17 @@ function renderTags(tags, label) {
         .join("")}
     </div>
   `;
+}
+
+async function readResponseData(response) {
+  const contentType = response.headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  const text = await response.text();
+  return { message: text.trim() };
 }
 
 function normalizeText(value) {

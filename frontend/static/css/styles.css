@@ -587,6 +587,13 @@ body::after {
   transform: translateY(-1px);
 }
 
+.filter-chip:focus-visible {
+  outline: 3px solid rgba(56, 255, 201, 0.28);
+  outline-offset: 2px;
+  border-color: rgba(56, 255, 201, 0.4);
+  background: rgba(56, 255, 201, 0.14);
+}
+
 .section-status {
   min-height: 1.5rem;
   margin-top: 0.9rem;

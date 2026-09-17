@@ -134,6 +134,7 @@ def apply_security_headers(response: Any) -> Any:
         "img-src 'self' data:; "
         "font-src 'self' https://fonts.gstatic.com; "
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+        "style-src-elem 'self' https://fonts.googleapis.com; "
         "script-src 'self' 'unsafe-inline'; "
         "connect-src 'self'; "
         "form-action 'self'; "
