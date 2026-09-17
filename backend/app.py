@@ -320,6 +320,10 @@ def contact() -> Tuple[Any, int]:
                         "Thank you for contacting USETAI Technology. "
                         "We will respond within 2 business days."
                     ),
+                    "received": {
+                        "email": email,
+                        "name": normalized_payload["name"],
+                    },
                 }
             ),
             200,

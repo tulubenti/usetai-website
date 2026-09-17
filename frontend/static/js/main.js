@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+const revealObservers = new WeakMap();
+
 function setupDynamicSections(prefersReducedMotion) {
   [
     {
@@ -39,7 +41,7 @@ function setupDynamicSections(prefersReducedMotion) {
       itemLabel: "services",
       renderItem: renderServiceCard,
       getTags: (item) => item.tags || [],
-      matchesSearch: (item, query) =>
+      matchesSearch: (item) =>
         [item.title, item.description].concat(item.bullets || [], item.tags || []).join(" "),
       skeletonCount: 4,
     },
@@ -61,7 +63,7 @@ function setupDynamicSections(prefersReducedMotion) {
       itemLabel: "case studies",
       renderItem: renderProjectCard,
       getTags: (item) => item.tags || [],
-      matchesSearch: (item, query) =>
+      matchesSearch: (item) =>
         [item.title, item.summary, item.outcome].concat(item.tags || []).join(" "),
       skeletonCount: 2,
     },
@@ -166,8 +168,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
     const filteredItems = allItems.filter((item) => {
       const matchesTag =
         activeTag === "All" || (config.getTags(item) || []).includes(activeTag);
-      const matchesQuery =
-        !query || normalizeText(config.matchesSearch(item, query)).includes(query);
+      const matchesQuery = !query || item._searchIndex.includes(query);
       return matchesTag && matchesQuery;
     });
 
@@ -218,9 +219,10 @@ function setupDynamicSection(config, prefersReducedMotion) {
         throw new Error(`Invalid ${config.itemLabel} payload.`);
       }
 
-      const items = payload[config.dataKey];
-
-      allItems = items;
+      allItems = payload[config.dataKey].map((item) => ({
+        ...item,
+        _searchIndex: normalizeText(config.matchesSearch(item)),
+      }));
       activeTag = "All";
       renderFilters();
 
@@ -507,13 +509,20 @@ function setupButtonRipples(prefersReducedMotion) {
 }
 
 function setupRevealAnimations(prefersReducedMotion) {
-  applyRevealState(
-    document.querySelectorAll(".service-card, .initiative-card, .project-card"),
-    prefersReducedMotion
-  );
+  document
+    .querySelectorAll(".services-grid, .initiatives-grid, .projects-grid")
+    .forEach((container) => {
+      applyRevealState(
+        container.querySelectorAll(
+          ".service-card, .initiative-card, .project-card"
+        ),
+        prefersReducedMotion,
+        container
+      );
+    });
 }
 
-function applyRevealState(elements, prefersReducedMotion) {
+function applyRevealState(elements, prefersReducedMotion, observerKey) {
   const revealTargets = Array.from(elements || []);
   revealTargets.forEach((el, index) => {
     el.classList.add("reveal-item");
@@ -531,6 +540,11 @@ function applyRevealState(elements, prefersReducedMotion) {
     return;
   }
 
+  const existingObserver = observerKey && revealObservers.get(observerKey);
+  if (existingObserver) {
+    existingObserver.disconnect();
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -541,6 +555,10 @@ function applyRevealState(elements, prefersReducedMotion) {
     },
     { threshold: 0.15 }
   );
+
+  if (observerKey) {
+    revealObservers.set(observerKey, observer);
+  }
 
   revealTargets.forEach((el) => observer.observe(el));
 }
@@ -616,7 +634,14 @@ async function readResponseData(response) {
   const contentType = response.headers.get("content-type") || "";
 
   if (contentType.includes("application/json")) {
-    return response.json();
+    const fallbackResponse = response.clone();
+
+    try {
+      return await response.json();
+    } catch (error) {
+      const text = await fallbackResponse.text();
+      return { message: text.trim() || "Invalid JSON response" };
+    }
   }
 
   const text = await response.text();

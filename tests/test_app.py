@@ -89,6 +89,7 @@ def test_contact_accepts_valid_payload() -> None:
 
     assert response.status_code == 200
     assert response.get_json()["status"] == "success"
+    assert response.get_json()["received"]["email"] == "user@example.com"
 
 
 def test_contact_accepts_normalized_valid_payload() -> None:
@@ -98,7 +99,7 @@ def test_contact_accepts_normalized_valid_payload() -> None:
         "/api/contact",
         json={
             "name": "  A User  ",
-            "email": "  USER@Example.COM  ",
+            "email": "  user@Example.COM  ",
             "message": "  Hello there team, I would like to learn more.  ",
             "interest": "  Responsible AI  ",
         },
@@ -106,3 +107,4 @@ def test_contact_accepts_normalized_valid_payload() -> None:
 
     assert response.status_code == 200
     assert response.get_json()["status"] == "success"
+    assert response.get_json()["received"]["email"] == "user@example.com"
