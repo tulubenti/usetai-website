@@ -207,7 +207,6 @@ function setupDynamicSection(config, prefersReducedMotion) {
     try {
       const response = await fetch(config.endpoint, {
         headers: { Accept: "application/json" },
-        cache: "no-store",
       });
       const payload = await readResponseData(response);
       const items = Array.isArray(payload[config.dataKey]) ? payload[config.dataKey] : [];
