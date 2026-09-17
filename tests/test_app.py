@@ -20,6 +20,7 @@ def test_homepage_exposes_dynamic_search_controls() -> None:
     assert 'id="projects-search"' in html
     assert 'aria-describedby="name-feedback"' in html
     assert '<meta property="og:image" content="https://usetai.example/static/img/og-image.png" />' in html
+    assert '<meta name="twitter:image" content="https://usetai.example/static/img/og-image.png" />' in html
 
 
 def test_homepage_sets_security_headers() -> None:

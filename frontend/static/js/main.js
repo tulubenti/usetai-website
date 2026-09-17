@@ -94,6 +94,11 @@ function setupDynamicSection(config, prefersReducedMotion) {
   };
 
   const renderSkeletons = () => {
+    if (prefersReducedMotion) {
+      grid.classList.remove("is-loading-cards");
+      return;
+    }
+
     grid.classList.add("is-loading-cards");
     grid.innerHTML = new Array(config.skeletonCount)
       .fill("")
@@ -197,6 +202,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
   const restoreFallback = () => {
     isFallbackMode = true;
     searchInput.disabled = true;
+    filterContainer.innerHTML = "";
     grid.classList.remove("is-loading-cards");
     grid.innerHTML = fallbackMarkup;
     results.textContent = `Showing ${fallbackCount} curated ${config.itemLabel}.`;
