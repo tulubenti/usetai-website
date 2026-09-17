@@ -73,6 +73,7 @@ function setupDynamicSections(prefersReducedMotion) {
 function setupDynamicSection(config, prefersReducedMotion) {
   const grid = document.getElementById(config.gridId);
   const searchInput = document.getElementById(config.searchId);
+  const searchField = searchInput && searchInput.closest(".search-field");
   const filterContainer = document.getElementById(config.filterId);
   const status = document.getElementById(config.statusId);
   const results = document.getElementById(config.resultsId);
@@ -88,10 +89,18 @@ function setupDynamicSection(config, prefersReducedMotion) {
   let activeTag = "All";
   let isFallbackMode = false;
   let isLoading = false;
+  let latestRequestId = 0;
 
   const setStatus = (message, state = "info") => {
     status.textContent = message;
     status.dataset.state = state;
+  };
+
+  const setExplorerControlsVisible = (isVisible) => {
+    if (searchField) {
+      searchField.hidden = !isVisible;
+    }
+    filterContainer.hidden = !isVisible;
   };
 
   const renderSkeletons = () => {
@@ -204,6 +213,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
     isFallbackMode = true;
     searchInput.disabled = true;
     searchInput.value = "";
+    setExplorerControlsVisible(false);
     filterContainer.innerHTML = "";
     grid.classList.remove("is-loading-cards");
     grid.innerHTML = fallbackMarkup;
@@ -219,6 +229,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
       return;
     }
 
+    const requestId = ++latestRequestId;
     isLoading = true;
     retryButton.disabled = true;
     renderSkeletons();
@@ -232,6 +243,10 @@ function setupDynamicSection(config, prefersReducedMotion) {
       });
       const payload = await readResponseData(response);
 
+      if (requestId !== latestRequestId) {
+        return;
+      }
+
       if (!response.ok) {
         throw new Error(payload.message || `Unable to load ${config.itemLabel}.`);
       }
@@ -242,6 +257,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
 
       isFallbackMode = false;
       searchInput.disabled = false;
+      setExplorerControlsVisible(true);
       allItems = payload[config.dataKey].map((item) => ({
         ...item,
         _searchIndex: normalizeText(config.matchesSearch(item)),
@@ -258,13 +274,18 @@ function setupDynamicSection(config, prefersReducedMotion) {
 
       updateView();
     } catch (error) {
+      if (requestId !== latestRequestId) {
+        return;
+      }
       console.error(`Failed to load ${config.itemLabel}:`, error);
       restoreFallback();
       setStatus(config.fallbackMessage, "error");
       retryButton.hidden = false;
     } finally {
-      isLoading = false;
-      retryButton.disabled = false;
+      if (requestId === latestRequestId) {
+        isLoading = false;
+        retryButton.disabled = false;
+      }
     }
   };
 
