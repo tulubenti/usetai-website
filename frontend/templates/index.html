@@ -8,8 +8,6 @@
     <link rel="canonical" href="{{ site_url }}" />
     <meta name="robots" content="index,follow,max-image-preview:large" />
     <meta name="theme-color" content="#060a12" />
-    {% set social_image = SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' %}
-    {% set social_image_url = social_image if social_image.startswith('http://') or social_image.startswith('https://') else site_url.rstrip('/') ~ (social_image if social_image.startswith('/') else '/' ~ social_image) %}
     <!-- Open Graph -->
     <meta property="og:site_name" content="USETAI Technology" />
     <meta property="og:title" content="{{ site_title }}" />

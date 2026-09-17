@@ -162,6 +162,15 @@ def validate_contact_email(email: str) -> str:
     return normalized_email.normalized
 
 
+def build_absolute_url(base_url: str, asset_url: str) -> str:
+    if asset_url.startswith(("http://", "https://")):
+        return asset_url
+    normalized_asset_url = (
+        asset_url if asset_url.startswith("/") else f"/{asset_url}"
+    )
+    return f"{base_url.rstrip('/')}{normalized_asset_url}"
+
+
 @app.route("/", methods=["GET"])
 def index() -> str:
     """
@@ -175,6 +184,10 @@ def index() -> str:
             "site_title": site_data.SITE_INFO.get("title"),
             "site_description": site_data.SITE_INFO.get("description"),
             "site_url": site_data.SITE_INFO.get("url"),
+            "social_image_url": build_absolute_url(
+                site_data.SITE_INFO.get("url", ""),
+                site_data.SITE_INFO.get("logo", "/static/img/og-image.png"),
+            ),
             "services": site_data.SERVICES,
             "industries": site_data.INDUSTRIES,
             "projects": site_data.PROJECTS,

@@ -679,19 +679,16 @@ function renderTags(tags, label) {
 
 async function readResponseData(response) {
   const contentType = response.headers.get("content-type") || "";
+  const text = await response.text();
 
   if (contentType.includes("application/json")) {
-    const fallbackResponse = response.clone();
-
     try {
-      return await response.json();
+      return text ? JSON.parse(text) : {};
     } catch (error) {
-      const text = await fallbackResponse.text();
       return { message: text.trim() || "Invalid JSON response" };
     }
   }
 
-  const text = await response.text();
   return { message: text.trim() };
 }
 
