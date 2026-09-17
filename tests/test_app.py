@@ -19,6 +19,8 @@ def test_homepage_exposes_dynamic_search_controls() -> None:
     assert 'id="services-search"' in html
     assert 'id="projects-search"' in html
     assert 'aria-describedby="name-feedback"' in html
+    assert "Generative AI &amp; LLMs" in html
+    assert "AI for Climate Monitoring" in html
     assert '<meta property="og:image" content="https://usetai.example/static/img/og-image.png" />' in html
     assert '<meta name="twitter:image" content="https://usetai.example/static/img/og-image.png" />' in html
 

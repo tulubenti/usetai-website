@@ -87,6 +87,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
   let allItems = [];
   let activeTag = "All";
   let isFallbackMode = false;
+  let isLoading = false;
 
   const setStatus = (message, state = "info") => {
     status.textContent = message;
@@ -202,6 +203,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
   const restoreFallback = () => {
     isFallbackMode = true;
     searchInput.disabled = true;
+    searchInput.value = "";
     filterContainer.innerHTML = "";
     grid.classList.remove("is-loading-cards");
     grid.innerHTML = fallbackMarkup;
@@ -213,6 +215,12 @@ function setupDynamicSection(config, prefersReducedMotion) {
   };
 
   const loadItems = async () => {
+    if (isLoading) {
+      return;
+    }
+
+    isLoading = true;
+    retryButton.disabled = true;
     renderSkeletons();
     retryButton.hidden = true;
     results.textContent = config.loadingMessage;
@@ -254,6 +262,9 @@ function setupDynamicSection(config, prefersReducedMotion) {
       restoreFallback();
       setStatus(config.fallbackMessage, "error");
       retryButton.hidden = false;
+    } finally {
+      isLoading = false;
+      retryButton.disabled = false;
     }
   };
 
