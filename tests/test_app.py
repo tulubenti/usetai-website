@@ -71,7 +71,7 @@ def test_contact_rejects_message_over_limit() -> None:
     )
 
     assert response.status_code == 400
-    assert response.get_json()["message"] == "Message must be 1000 characters or fewer"
+    assert response.get_json()["message"] == "Field length exceeded for: message"
 
 
 def test_contact_accepts_valid_payload() -> None:
@@ -90,6 +90,7 @@ def test_contact_accepts_valid_payload() -> None:
     assert response.status_code == 200
     assert response.get_json()["status"] == "success"
     assert response.get_json()["received"]["email"] == "user@example.com"
+    assert response.get_json()["received"]["name"] == "A User"
 
 
 def test_contact_accepts_normalized_valid_payload() -> None:
@@ -108,3 +109,4 @@ def test_contact_accepts_normalized_valid_payload() -> None:
     assert response.status_code == 200
     assert response.get_json()["status"] == "success"
     assert response.get_json()["received"]["email"] == "user@example.com"
+    assert response.get_json()["received"]["name"] == "A User"

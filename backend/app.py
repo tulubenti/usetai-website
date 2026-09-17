@@ -149,11 +149,11 @@ def apply_security_headers(response: Any) -> Any:
 
 def normalize_contact_payload(data: Dict[str, Any]) -> Dict[str, str]:
     normalized: Dict[str, str] = {}
-    for field_name, limit in CONTACT_FIELD_LIMITS.items():
+    for field_name in CONTACT_FIELD_LIMITS:
         value = data.get(field_name, "")
         if value is None:
             value = ""
-        normalized[field_name] = str(value).strip()[:limit]
+        normalized[field_name] = str(value).strip()
     return normalized
 
 
@@ -252,6 +252,30 @@ def contact() -> Tuple[Any, int]:
             )
 
         normalized_payload = normalize_contact_payload(data)
+        oversized_fields = [
+            field_name
+            for field_name, limit in CONTACT_FIELD_LIMITS.items()
+            if len(normalized_payload.get(field_name, "")) > limit
+        ]
+
+        if oversized_fields:
+            logger.warning(
+                "Contact form oversized fields: %s",
+                ", ".join(oversized_fields),
+            )
+            return (
+                jsonify(
+                    {
+                        "status": "error",
+                        "message": (
+                            "Field length exceeded for: "
+                            f"{', '.join(oversized_fields)}"
+                        ),
+                    }
+                ),
+                400,
+            )
+
         required_fields: list[str] = ["name", "email", "message"]
         missing_fields: list[str] = [
             field
@@ -270,21 +294,6 @@ def contact() -> Tuple[Any, int]:
                         "status": "error",
                         "message": (
                             f"Missing required fields: {', '.join(missing_fields)}"
-                        ),
-                    }
-                ),
-                400,
-            )
-
-        if len(str(data.get("message", "")).strip()) > CONTACT_FIELD_LIMITS["message"]:
-            logger.warning("Contact form message exceeded maximum length")
-            return (
-                jsonify(
-                    {
-                        "status": "error",
-                        "message": (
-                            f"Message must be {CONTACT_FIELD_LIMITS['message']} characters "
-                            "or fewer"
                         ),
                     }
                 ),
