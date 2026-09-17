@@ -209,11 +209,16 @@ function setupDynamicSection(config, prefersReducedMotion) {
         headers: { Accept: "application/json" },
       });
       const payload = await readResponseData(response);
-      const items = Array.isArray(payload[config.dataKey]) ? payload[config.dataKey] : [];
 
       if (!response.ok) {
         throw new Error(payload.message || `Unable to load ${config.itemLabel}.`);
       }
+
+      if (!Array.isArray(payload[config.dataKey])) {
+        throw new Error(`Invalid ${config.itemLabel} payload.`);
+      }
+
+      const items = payload[config.dataKey];
 
       allItems = items;
       activeTag = "All";

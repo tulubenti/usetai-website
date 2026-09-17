@@ -89,3 +89,20 @@ def test_contact_accepts_valid_payload() -> None:
 
     assert response.status_code == 200
     assert response.get_json()["status"] == "success"
+
+
+def test_contact_accepts_normalized_valid_payload() -> None:
+    client = create_test_client()
+
+    response = client.post(
+        "/api/contact",
+        json={
+            "name": "  A User  ",
+            "email": "  USER@Example.COM  ",
+            "message": "  Hello there team, I would like to learn more.  ",
+            "interest": "  Responsible AI  ",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.get_json()["status"] == "success"
