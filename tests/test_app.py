@@ -19,6 +19,7 @@ def test_homepage_exposes_dynamic_search_controls() -> None:
     assert 'id="services-search"' in html
     assert 'id="projects-search"' in html
     assert 'aria-describedby="name-feedback"' in html
+    assert '<meta property="og:image" content="https://usetai.example/static/img/og-image.png" />' in html
 
 
 def test_homepage_sets_security_headers() -> None:
@@ -29,7 +30,9 @@ def test_homepage_sets_security_headers() -> None:
     assert response.headers["X-Content-Type-Options"] == "nosniff"
     assert response.headers["X-Frame-Options"] == "DENY"
     assert response.headers["Referrer-Policy"] == "strict-origin-when-cross-origin"
-    assert "frame-ancestors 'none'" in response.headers["Content-Security-Policy"]
+    csp = response.headers["Content-Security-Policy"]
+    assert "frame-ancestors 'none'" in csp
+    assert "script-src 'self';" in csp
 
 
 def test_services_api_includes_tags() -> None:
@@ -56,6 +59,15 @@ def test_contact_rejects_invalid_email() -> None:
 
     assert response.status_code == 400
     assert response.get_json()["message"] == "Invalid email address"
+
+
+def test_contact_rejects_non_object_payload() -> None:
+    client = create_test_client()
+
+    response = client.post("/api/contact", json=["not", "an", "object"])
+
+    assert response.status_code == 400
+    assert response.get_json()["message"] == "Invalid JSON payload"
 
 
 def test_contact_rejects_message_over_limit() -> None:

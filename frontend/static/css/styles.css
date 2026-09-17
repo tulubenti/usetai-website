@@ -1325,6 +1325,10 @@ textarea:focus {
     transform: none;
   }
 
+  .card-skeleton::after {
+    animation: none;
+  }
+
   .reveal-item {
     opacity: 1;
     transform: none;

@@ -86,6 +86,7 @@ function setupDynamicSection(config, prefersReducedMotion) {
   const fallbackCount = grid.querySelectorAll(`.${config.cardClass}`).length;
   let allItems = [];
   let activeTag = "All";
+  let isFallbackMode = false;
 
   const setStatus = (message, state = "info") => {
     status.textContent = message;
@@ -164,6 +165,10 @@ function setupDynamicSection(config, prefersReducedMotion) {
   };
 
   const updateView = () => {
+    if (isFallbackMode) {
+      return;
+    }
+
     const query = normalizeText(searchInput.value);
     const filteredItems = allItems.filter((item) => {
       const matchesTag =
@@ -190,6 +195,8 @@ function setupDynamicSection(config, prefersReducedMotion) {
   };
 
   const restoreFallback = () => {
+    isFallbackMode = true;
+    searchInput.disabled = true;
     grid.classList.remove("is-loading-cards");
     grid.innerHTML = fallbackMarkup;
     results.textContent = `Showing ${fallbackCount} curated ${config.itemLabel}.`;
@@ -219,6 +226,8 @@ function setupDynamicSection(config, prefersReducedMotion) {
         throw new Error(`Invalid ${config.itemLabel} payload.`);
       }
 
+      isFallbackMode = false;
+      searchInput.disabled = false;
       allItems = payload[config.dataKey].map((item) => ({
         ...item,
         _searchIndex: normalizeText(config.matchesSearch(item)),

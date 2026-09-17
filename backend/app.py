@@ -135,7 +135,7 @@ def apply_security_headers(response: Any) -> Any:
         "font-src 'self' https://fonts.gstatic.com; "
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
         "style-src-elem 'self' https://fonts.googleapis.com; "
-        "script-src 'self' 'unsafe-inline'; "
+        "script-src 'self'; "
         "connect-src 'self'; "
         "form-action 'self'; "
         "base-uri 'self'; "
@@ -241,6 +241,18 @@ def contact() -> Tuple[Any, int]:
 
         if not data:
             logger.warning("Contact form submission with empty payload")
+            return (
+                jsonify(
+                    {
+                        "status": "error",
+                        "message": "Invalid JSON payload",
+                    }
+                ),
+                400,
+            )
+
+        if not isinstance(data, dict):
+            logger.warning("Contact form submission with non-object payload")
             return (
                 jsonify(
                     {
