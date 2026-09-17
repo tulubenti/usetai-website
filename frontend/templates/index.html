@@ -6,16 +6,21 @@
     <title>{{ site_title }}</title>
     <meta name="description" content="{{ site_description }}" />
     <link rel="canonical" href="{{ site_url }}" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#060a12" />
     <!-- Open Graph -->
+    <meta property="og:site_name" content="USETAI Technology" />
     <meta property="og:title" content="{{ site_title }}" />
     <meta property="og:description" content="{{ site_description }}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ site_url }}" />
-    <meta property="og:image" content="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" />
+    <meta property="og:image" content="{{ social_image_url }}" />
+    <meta property="og:image:alt" content="{{ SITE_INFO.social_image_alt if SITE_INFO is defined else 'USETAI Technology social preview image' }}" />
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ site_title }}" />
     <meta name="twitter:description" content="{{ site_description }}" />
+    <meta name="twitter:image" content="{{ social_image_url }}" />
 
     <!-- Performance-friendly font preload + preferred system fallback -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +56,7 @@
     <div class="overlay" role="main" id="main">
       <header class="hero" aria-labelledby="hero-title">
         <div class="hero-inner">
-          <img class="logo" src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI logo" width="800" height="800" />
+          <img class="logo" src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI logo" width="800" height="800" decoding="async" fetchpriority="high" />
           <h1 id="hero-title">{{ site_title }}</h1>
           <p class="tagline">{{ site_description }}</p>
           <p class="hero-strap">Enterprise-grade AI, responsible by design: interpretable, secure, and built to scale.</p>
@@ -90,11 +95,30 @@
         <!-- Services (dynamic) -->
         <section id="services-tab" class="tab-content" role="tabpanel" aria-labelledby="services-tab-button">
           <h2 id="services">Services & Solutions</h2>
-          <div class="services-grid">
+          <div class="section-toolbar" aria-label="Service explorer controls">
+            <label class="search-field" for="services-search">
+              <span class="search-label">Search services</span>
+              <input id="services-search" type="search" placeholder="Search AI, cloud, MLOps, RAG..." autocomplete="off" />
+            </label>
+            <div class="toolbar-meta">
+              <p id="services-results" class="results-summary">Loading service catalog…</p>
+              <button id="services-retry" type="button" class="btn ghost retry-btn" hidden>Retry loading services</button>
+            </div>
+          </div>
+          <div id="services-filters" class="filter-chips" role="toolbar" aria-label="Filter services by capability"></div>
+          <div id="services-status" class="section-status" role="status" aria-live="polite"></div>
+          <div class="services-grid" id="services-grid">
             {% for s in services %}
             <article class="service-card" id="{{ s.id }}">
               <h3>{{ s.title }}</h3>
               <p>{{ s.description }}</p>
+              {% if s.tags %}
+              <div class="card-tags" aria-label="Service focus areas">
+                {% for tag in s.tags %}
+                <span class="tag-badge">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
               {% if s.bullets %}
               <ul>
                 {% for b in s.bullets %}
@@ -174,7 +198,7 @@
               <p>Every project we take on has measurable positive impact — from climate monitoring to healthcare diagnostics to public-sector modernisation.</p>
             </article>
           </div>
-          <p style="margin-top:2rem;text-align:center;">
+          <p class="section-cta">
             <a class="btn primary" href="#contact" data-tab-link="contact">Get in touch about opportunities</a>
           </p>
         </section>
@@ -182,11 +206,33 @@
         <!-- Projects / Case studies -->
         <section id="projects-tab" class="tab-content" role="tabpanel" aria-labelledby="projects-tab-button">
           <h2 id="projects">Case Studies</h2>
-          <div class="projects-grid">
+          <div class="section-toolbar" aria-label="Case study explorer controls">
+            <label class="search-field" for="projects-search">
+              <span class="search-label">Search case studies</span>
+              <input id="projects-search" type="search" placeholder="Search climate, government, document AI..." autocomplete="off" />
+            </label>
+            <div class="toolbar-meta">
+              <p id="projects-results" class="results-summary">Loading case studies…</p>
+              <button id="projects-retry" type="button" class="btn ghost retry-btn" hidden>Retry loading case studies</button>
+            </div>
+          </div>
+          <div id="projects-filters" class="filter-chips" role="toolbar" aria-label="Filter case studies by topic"></div>
+          <div id="projects-status" class="section-status" role="status" aria-live="polite"></div>
+          <div class="projects-grid" id="projects-grid">
             {% for p in projects %}
             <article class="project-card" id="{{ p.id }}">
               <h3>{{ p.title }}</h3>
               <p>{{ p.summary }}</p>
+              {% if p.outcome %}
+              <p class="card-outcome">{{ p.outcome }}</p>
+              {% endif %}
+              {% if p.tags %}
+              <div class="card-tags" aria-label="Case study topics">
+                {% for tag in p.tags %}
+                <span class="tag-badge">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
             </article>
             {% endfor %}
           </div>
@@ -200,12 +246,12 @@
               <div class="form-progress-bar" id="form-progress-bar"></div>
             </div>
             <div class="form-grid">
-              <label><span class="label-text">Name</span><input name="name" type="text" required aria-required="true" autocomplete="name" /><span class="field-feedback" data-feedback-for="name" aria-live="polite"></span></label>
-              <label><span class="label-text">Email</span><input name="email" type="email" required aria-required="true" autocomplete="email" /><span class="field-feedback" data-feedback-for="email" aria-live="polite"></span></label>
+              <label><span class="label-text">Name</span><input id="contact-name" name="name" type="text" required aria-required="true" aria-describedby="name-feedback" autocomplete="name" /><span class="field-feedback" id="name-feedback" data-feedback-for="name" aria-live="polite"></span></label>
+              <label><span class="label-text">Email</span><input id="contact-email" name="email" type="email" required aria-required="true" aria-describedby="email-feedback" autocomplete="email" inputmode="email" /><span class="field-feedback" id="email-feedback" data-feedback-for="email" aria-live="polite"></span></label>
               <label><span class="label-text">Organization</span><input name="organization" type="text" autocomplete="organization" /></label>
               <label><span class="label-text">Industry</span><select name="industry"><option value="government">Government</option><option value="healthcare">Healthcare</option><option value="finance">Finance</option><option value="other">Other</option></select></label>
               <label class="full"><span class="label-text">Service Interest</span><input name="interest" type="text" autocomplete="off" /></label>
-              <label class="full"><span class="label-text">Message</span><textarea name="message" rows="4" required aria-required="true" maxlength="1000"></textarea><span class="field-feedback" data-feedback-for="message" aria-live="polite"></span><span class="char-count" id="message-char-count">0 / 1000</span></label>
+              <label class="full"><span class="label-text">Message</span><textarea id="contact-message" name="message" rows="4" required aria-required="true" aria-describedby="message-feedback message-char-count" maxlength="1000"></textarea><span class="field-feedback" id="message-feedback" data-feedback-for="message" aria-live="polite"></span><span class="char-count" id="message-char-count">0 / 1000</span></label>
             </div>
             <div class="form-actions">
               <button type="submit" class="btn primary" id="contact-submit">Send message</button>
@@ -219,7 +265,7 @@
       <footer class="site-footer" role="contentinfo">
         <div class="footer-inner">
           <div class="company">
-            <img src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI" width="200" height="128" />
+            <img src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI" width="200" height="128" loading="lazy" decoding="async" />
             <p>USETAI Technology — Building humane, responsible technology.</p>
           </div>
           <nav class="footer-nav" aria-label="Footer">

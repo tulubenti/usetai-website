@@ -6,7 +6,7 @@ Provides configuration classes for different deployment environments
 """
 
 import os
-from typing import Dict, Any
+from typing import Dict
 
 
 class Config:
