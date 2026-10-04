@@ -205,7 +205,8 @@ function setupDynamicSection(config, prefersReducedMotion) {
     grid.innerHTML = filteredItems.map(config.renderItem).join("");
     applyRevealState(
       grid.querySelectorAll(`.${config.cardClass}`),
-      prefersReducedMotion
+      prefersReducedMotion,
+      grid
     );
   };
 
@@ -220,7 +221,8 @@ function setupDynamicSection(config, prefersReducedMotion) {
     results.textContent = `Showing ${fallbackCount} curated ${config.itemLabel}.`;
     applyRevealState(
       grid.querySelectorAll(`.${config.cardClass}`),
-      prefersReducedMotion
+      prefersReducedMotion,
+      grid
     );
   };
 
