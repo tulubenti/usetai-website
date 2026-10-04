@@ -35,6 +35,7 @@ def test_homepage_sets_security_headers() -> None:
     assert response.headers["Referrer-Policy"] == "strict-origin-when-cross-origin"
     csp = response.headers["Content-Security-Policy"]
     assert "frame-ancestors 'none'" in csp
+    assert "style-src-elem 'self' 'unsafe-inline'" in csp
     assert "script-src 'self';" in csp
 
 
