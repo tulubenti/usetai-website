@@ -24,3 +24,8 @@ Branch & deployment:
 Notes:
 - The diagonal particle animation is implemented in `frontend/static/js/animation.js`.
 - A minimal POST /api/contact endpoint has been added to backend/app.py for local testing; replace with production code as needed.
+- The Services and Case Studies tabs progressively enhance from server-rendered content to live client-side explorers backed by `/api/services` and `/api/projects`.
+
+Validation:
+- Run tests with `pytest`.
+- Run backend quality checks with `black --check backend tests`, `isort --check-only backend tests`, `flake8 backend tests`, and `mypy backend`.
