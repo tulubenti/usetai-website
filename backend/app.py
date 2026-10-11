@@ -4,7 +4,7 @@ import os
 from typing import Any, Dict, Tuple
 
 from email_validator import EmailNotValidError, validate_email
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 
 # Local site data (kept in a separate module)
 # Support multiple import patterns so the app can be run as a package
@@ -230,6 +230,26 @@ def responsible_ai() -> str:
             "governance practices across all AI delivery engagements."
         ),
     )
+
+
+@app.route("/robots.txt", methods=["GET"])
+def robots_txt() -> Response:
+    base = request.url_root.rstrip("/")
+    body = f"User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n"
+    return Response(body, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml", methods=["GET"])
+def sitemap_xml() -> Response:
+    base = request.url_root.rstrip("/")
+    paths = ["/", "/privacy", "/terms", "/responsible-ai"]
+    urls = "".join(f"<url><loc>{base}{path}</loc></url>" for path in paths)
+    body = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        f"{urls}</urlset>"
+    )
+    return Response(body, mimetype="application/xml")
 
 
 @app.route("/health", methods=["GET"])
