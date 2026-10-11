@@ -1343,3 +1343,27 @@ textarea:focus {
     scroll-behavior: auto !important;
   }
 }
+
+/* Futuristic polish: glow, lift and smooth scrolling */
+html { scroll-behavior: smooth; }
+.service-card, .initiative-card, .project-card {
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.service-card:hover, .initiative-card:hover, .project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 200, 255, 0.18), 0 0 0 1px rgba(0, 200, 255, 0.35);
+}
+.hero h1 {
+  background: linear-gradient(90deg, #fff, #7fd8ff 50%, #b38bff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+a:focus-visible, .btn:focus-visible {
+  outline: 2px solid #7fd8ff;
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .service-card:hover, .initiative-card:hover, .project-card:hover { transform: none; }
+}

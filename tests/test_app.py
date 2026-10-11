@@ -125,3 +125,15 @@ def test_contact_accepts_normalized_valid_payload() -> None:
     assert response.get_json()["status"] == "success"
     assert response.get_json()["received"]["email"] == "user@example.com"
     assert response.get_json()["received"]["name"] == "A User"
+
+
+def test_robots_and_sitemap_routes() -> None:
+    client = create_test_client()
+
+    robots = client.get("/robots.txt")
+    sitemap = client.get("/sitemap.xml")
+
+    assert robots.status_code == 200
+    assert "Sitemap:" in robots.get_data(as_text=True)
+    assert sitemap.status_code == 200
+    assert "/responsible-ai" in sitemap.get_data(as_text=True)
