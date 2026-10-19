@@ -11,6 +11,8 @@
   --accent-tertiary: #6be3ff;
   --accent-warm: #ff7e5f;
   --accent-purple: #8c78ff;
+  --accent-control-primary: var(--accent-primary);
+  --accent-control-secondary: var(--accent-secondary);
   
   /* Text & Foreground */
   --text-primary: #f0f4f8;
@@ -64,6 +66,8 @@ html.light {
   --accent-primary: #008b68;
   --accent-secondary: #00785e;
   --accent-tertiary: #087e9c;
+  --accent-control-primary: #008b68;
+  --accent-control-secondary: #00a77a;
   --glass-light: rgba(0, 0, 0, 0.04);
   --glass-medium: rgba(0, 0, 0, 0.06);
   --glass-dark: rgba(255, 255, 255, 0.8);
@@ -370,7 +374,7 @@ body::after {
 }
 
 .btn.primary {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(135deg, var(--accent-control-primary) 0%, var(--accent-control-secondary) 100%);
   color: #000;
   box-shadow: 0 8px 24px rgba(0, 224, 154, 0.3);
   font-weight: 700;
@@ -483,7 +487,7 @@ html.light .tab-navigation-wrap {
 }
 
 .tab-button.active {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(135deg, var(--accent-control-primary), var(--accent-control-secondary));
   color: #000;
   border-color: transparent;
   box-shadow: 0 4px 16px rgba(0, 224, 154, 0.3);
