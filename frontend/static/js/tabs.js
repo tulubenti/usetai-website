@@ -72,7 +72,7 @@
   });
 
   function syncFromHash() {
-    const initialTab = location.hash.slice(1);
+    const initialTab = location.hash.slice(1) || "mission";
     const index = buttons.findIndex((button) => button.getAttribute("data-tab") === initialTab);
     if (index >= 0) activate(index, false);
   }
