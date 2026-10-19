@@ -542,7 +542,7 @@ function setupTypedHero(prefersReducedMotion) {
 
   let phraseIndex = 0;
   let characterIndex = phrases[0].length;
-  let deleting = false;
+  let deleting = true;
 
   const typeNextCharacter = () => {
     const phrase = phrases[phraseIndex];
