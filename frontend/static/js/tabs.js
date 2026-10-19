@@ -5,7 +5,8 @@
   const panels = buttons.map((button) => document.getElementById(`${button.getAttribute("data-tab")}-tab`));
   const panelAnimationTimers = new WeakMap();
 
-  function activate(index, setHash = true, focusPanel = false) {
+  function activate(index, setHash = true, focusPanel = false, historyMode = "replace") {
+    if (!buttons[index]) return;
     buttons.forEach((button, i) => {
       const isActive = i === index;
       button.classList.toggle("active", isActive);
@@ -33,7 +34,7 @@
     if (setHash) {
       const tabName = buttons[index].getAttribute("data-tab");
       try {
-        history.replaceState(null, "", `#${tabName}`);
+        history[`${historyMode}State`](null, "", `#${tabName}`);
       } catch (e) {}
     }
 
@@ -47,7 +48,7 @@
   }
 
   buttons.forEach((button, index) => {
-    button.addEventListener("click", () => activate(index));
+    button.addEventListener("click", () => activate(index, true, false, "push"));
     button.addEventListener("keydown", (event) => {
       if (!["ArrowRight", "ArrowLeft", "Home", "End", "Enter", " "].includes(event.key)) return;
       event.preventDefault();
@@ -66,11 +67,20 @@
       const idx = buttons.findIndex((button) => button.getAttribute("data-tab") === name);
       if (idx < 0) return;
       event.preventDefault();
-      activate(idx);
+      activate(idx, true, false, "push");
     });
   });
 
-  const initialTab = location.hash ? location.hash.replace("#", "") : null;
+  function syncFromHash() {
+    const initialTab = location.hash.slice(1) || "mission";
+    const index = buttons.findIndex((button) => button.getAttribute("data-tab") === initialTab);
+    if (index >= 0) activate(index, false);
+  }
+
+  window.addEventListener("hashchange", syncFromHash);
+  window.addEventListener("popstate", syncFromHash);
+
+  const initialTab = location.hash.slice(1);
   const startIndex = initialTab
     ? buttons.findIndex((button) => button.getAttribute("data-tab") === initialTab)
     : buttons.findIndex((button) => button.classList.contains("active"));

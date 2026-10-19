@@ -25,6 +25,35 @@ def test_homepage_exposes_dynamic_search_controls() -> None:
     assert '<meta name="twitter:image" content="https://usetai.example/static/img/og-image.png" />' in html
 
 
+def test_homepage_has_accessible_tabs_and_dynamic_brand_details() -> None:
+    client = create_test_client()
+
+    response = client.get("/")
+    html = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert 'role="tablist"' in html
+    assert 'aria-orientation="horizontal"' in html
+    for tab_name in (
+        "mission",
+        "services",
+        "industries",
+        "research",
+        "careers",
+        "projects",
+        "contact",
+    ):
+        assert f'data-tab="{tab_name}"' in html
+        assert f'id="{tab_name}-tab"' in html
+        assert (
+            f'role="tabpanel" aria-labelledby="{tab_name}-tab-button" tabindex="0"'
+            in html
+        )
+    assert 'id="scroll-progress-bar"' in html
+    assert "data-typed-text" in html
+    assert 'data-count="4"' in html
+
+
 def test_homepage_sets_security_headers() -> None:
     client = create_test_client()
 

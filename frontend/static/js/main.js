@@ -10,8 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
   setupAnchorLinks();
   setupButtonRipples(prefersReducedMotion);
   setupScrollTop(scrollTopButton);
+  setupScrollProgress();
   setupRevealAnimations(prefersReducedMotion);
   setupHeroParallax(prefersReducedMotion);
+  setupTypedHero(prefersReducedMotion);
+  setupAnimatedMetrics(prefersReducedMotion);
   setupDynamicSections(prefersReducedMotion);
 
   if (form) {
@@ -525,6 +528,70 @@ function setupThemeToggle(themeToggle) {
   });
 }
 
+function setupTypedHero(prefersReducedMotion) {
+  const typedText = document.querySelector("[data-typed-text]");
+  if (!typedText) return;
+
+  const phrases = [
+    "Trustworthy intelligence. Built for impact.",
+    "Responsible AI. Real-world outcomes.",
+    "Human insight, amplified by technology.",
+  ];
+  typedText.textContent = phrases[0];
+  if (prefersReducedMotion) return;
+
+  let phraseIndex = 0;
+  let characterIndex = phrases[0].length;
+  let deleting = true;
+
+  const typeNextCharacter = () => {
+    const phrase = phrases[phraseIndex];
+    characterIndex += deleting ? -1 : 1;
+    typedText.textContent = phrase.slice(0, characterIndex);
+
+    let delay = deleting ? 32 : 58;
+    if (!deleting && characterIndex === phrase.length) {
+      deleting = true;
+      delay = 1800;
+    } else if (deleting && characterIndex === 0) {
+      deleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      delay = 350;
+    }
+    window.setTimeout(typeNextCharacter, delay);
+  };
+
+  window.setTimeout(typeNextCharacter, 1800);
+}
+
+function setupAnimatedMetrics(prefersReducedMotion) {
+  const metrics = Array.from(document.querySelectorAll(".metric-value[data-count]"));
+  const animate = (metric) => {
+    const target = Number(metric.dataset.count);
+    if (!Number.isFinite(target)) return;
+    if (prefersReducedMotion || !window.UIUtils) {
+      metric.textContent = String(target);
+    } else {
+      window.UIUtils.animateCounter(metric, target, 1100);
+    }
+  };
+
+  if (!metrics.length) return;
+  if (prefersReducedMotion || !window.IntersectionObserver) {
+    metrics.forEach(animate);
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      animate(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.5 });
+  metrics.forEach((metric) => observer.observe(metric));
+}
+
 function applyTheme(theme, themeToggle) {
   const isLight = theme === "light";
   document.documentElement.classList.toggle("light", isLight);
@@ -634,6 +701,23 @@ function setupScrollTop(button) {
   button.addEventListener("click", () => {
     window.UIUtils.smoothScrollTo(document.body, 0);
   });
+}
+
+function setupScrollProgress() {
+  const progressBar = document.getElementById("scroll-progress-bar");
+  if (!progressBar || !window.UIUtils) return;
+
+  const updateProgress = () => {
+    const scrollableHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+    progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+  };
+  const onScroll = window.UIUtils.rafThrottle(updateProgress);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  document.addEventListener("tab:activated", onScroll);
+  updateProgress();
 }
 
 function renderServiceCard(item) {
