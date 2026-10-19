@@ -209,6 +209,10 @@ const UIUtils = (() => {
 })();
 
 // Export for use in other scripts
+if (typeof window !== "undefined") {
+  window.UIUtils = UIUtils;
+}
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = UIUtils;
 }

@@ -52,14 +52,20 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <canvas id="diagonal-canvas" aria-hidden="true"></canvas>
+    <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
 
-    <div class="overlay" role="main" id="main">
+    <div class="overlay">
       <header class="hero" aria-labelledby="hero-title">
         <div class="hero-inner">
           <img class="logo" src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI logo" width="800" height="800" decoding="async" fetchpriority="high" />
           <h1 id="hero-title">{{ site_title }}</h1>
           <p class="tagline">{{ site_description }}</p>
-          <p class="hero-strap">Enterprise-grade AI, responsible by design: interpretable, secure, and built to scale.</p>
+          <p class="hero-strap">Enterprise-grade AI, responsible by design: interpretable, secure, and built to scale. <span class="typed-text" data-typed-text aria-hidden="true">Trustworthy intelligence. Built for impact.</span></p>
+          <div class="hero-metrics" role="group" aria-label="Explore our website">
+            <div class="metric"><span class="metric-value" data-count="{{ services|length }}">0</span><span class="metric-label">AI solutions</span></div>
+            <div class="metric"><span class="metric-value" data-count="{{ industries|length }}">0</span><span class="metric-label">Industries</span></div>
+            <div class="metric"><span class="metric-value" data-count="{{ projects|length }}">0</span><span class="metric-label">Case studies</span></div>
+          </div>
           <div class="hero-actions">
             <a class="btn primary" href="#services" data-tab-link="services">Explore AI Solutions</a>
             <a class="btn ghost" href="#projects" data-tab-link="projects">View Case Studies</a>
@@ -70,7 +76,7 @@
       </header>
 
       <div class="tab-navigation-wrap">
-        <nav class="tab-navigation" role="tablist" aria-label="Main site sections">
+        <nav class="tab-navigation" role="tablist" aria-label="Main site sections" aria-orientation="horizontal">
           <button class="tab-button active" data-tab="mission" role="tab" aria-controls="mission-tab" aria-selected="true" id="mission-tab-button">Mission</button>
           <button class="tab-button" data-tab="services" role="tab" aria-controls="services-tab" aria-selected="false" id="services-tab-button">Services</button>
           <button class="tab-button" data-tab="industries" role="tab" aria-controls="industries-tab" aria-selected="false" id="industries-tab-button">Industries</button>
@@ -82,9 +88,9 @@
         <button id="theme-toggle" class="icon-btn" aria-pressed="false" aria-label="Toggle light or dark theme" title="Toggle light/dark">🌗</button>
       </div>
 
-      <main class="main-content">
+      <main class="main-content" id="main" tabindex="-1">
         <!-- Mission -->
-        <section id="mission-tab" class="tab-content active" role="tabpanel" aria-labelledby="mission-tab-button">
+        <section id="mission-tab" class="tab-content active" role="tabpanel" aria-labelledby="mission-tab-button" tabindex="0">
           <h2>Who We Are</h2>
           <p>USETAI is an innovation-driven technology company dedicated to helping organizations transform their businesses through Artificial Intelligence (AI), Machine Learning (ML), Generative AI, and Cloud solutions.</p>
           <h3>Vision & Mission</h3>
@@ -93,7 +99,7 @@
         </section>
 
         <!-- Services (dynamic) -->
-        <section id="services-tab" class="tab-content" role="tabpanel" aria-labelledby="services-tab-button">
+        <section id="services-tab" class="tab-content" role="tabpanel" aria-labelledby="services-tab-button" tabindex="0">
           <h2 id="services">Services & Solutions</h2>
           <div class="section-toolbar" aria-label="Service explorer controls">
             <label class="search-field" for="services-search">
@@ -132,7 +138,7 @@
         </section>
 
         <!-- Industries (dynamic) -->
-        <section id="industries-tab" class="tab-content" role="tabpanel" aria-labelledby="industries-tab-button">
+        <section id="industries-tab" class="tab-content" role="tabpanel" aria-labelledby="industries-tab-button" tabindex="0">
           <h2>Industries</h2>
           <div class="initiatives-grid">
             {% for ind in industries %}
@@ -145,7 +151,7 @@
         </section>
 
         <!-- Research -->
-        <section id="research-tab" class="tab-content" role="tabpanel" aria-labelledby="research-tab-button">
+        <section id="research-tab" class="tab-content" role="tabpanel" aria-labelledby="research-tab-button" tabindex="0">
           <h2>Research & Innovation</h2>
           <p>At USETAI, research is central to everything we build. Our interdisciplinary teams explore the frontier of applied AI to deliver trustworthy, high-impact solutions.</p>
           <div class="initiatives-grid">
@@ -177,7 +183,7 @@
         </section>
 
         <!-- Careers -->
-        <section id="careers-tab" class="tab-content" role="tabpanel" aria-labelledby="careers-tab-button">
+        <section id="careers-tab" class="tab-content" role="tabpanel" aria-labelledby="careers-tab-button" tabindex="0">
           <h2>Careers at USETAI</h2>
           <p>We are building a team of curious, mission-driven technologists. If you want to work on real-world AI challenges that matter, we want to hear from you.</p>
           <div class="initiatives-grid">
@@ -204,7 +210,7 @@
         </section>
 
         <!-- Projects / Case studies -->
-        <section id="projects-tab" class="tab-content" role="tabpanel" aria-labelledby="projects-tab-button">
+        <section id="projects-tab" class="tab-content" role="tabpanel" aria-labelledby="projects-tab-button" tabindex="0">
           <h2 id="projects">Case Studies</h2>
           <div class="section-toolbar" aria-label="Case study explorer controls">
             <label class="search-field" for="projects-search">
@@ -239,7 +245,7 @@
         </section>
 
         <!-- Contact -->
-        <section id="contact-tab" class="tab-content" role="tabpanel" aria-labelledby="contact-tab-button">
+        <section id="contact-tab" class="tab-content" role="tabpanel" aria-labelledby="contact-tab-button" tabindex="0">
           <h2 id="contact">Contact Us</h2>
           <form id="contact-form" class="contact-form" method="post" action="/api/contact" novalidate>
             <div class="form-progress" aria-hidden="true">
