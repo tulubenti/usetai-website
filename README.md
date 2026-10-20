@@ -34,3 +34,10 @@ Notes:
 
 Validation:
 - The dark/light theme, tab navigation, content explorers, and contact form work without a JavaScript bundler or additional frontend dependencies.
+
+Modernization summary and known issues:
+- Design/UX: responsive dark/light themes, animated particle background, tabbed explorers, accessible skip link and focus handling.
+- Security: strict security headers/CSP and validated contact form input (see `backend/app.py`).
+- SEO: canonical, Open Graph/Twitter metadata and JSON-LD in `frontend/templates/index.html`.
+- Testing: `pytest`, `black`, `isort`, `flake8`, `mypy` all pass.
+- Known issues: no persistent storage or email delivery for `/api/contact`; no automated browser/accessibility tests. Suggested follow-ups: add rate limiting, a delivery backend, Lighthouse/axe CI, and remove unused og-image variants.
