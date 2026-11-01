@@ -60,6 +60,29 @@ def test_homepage_has_accessible_tabs_and_dynamic_brand_details() -> None:
     assert 'data-count="4"' in html
 
 
+def test_homepage_includes_updated_mission_and_contact_content() -> None:
+    client = create_test_client()
+
+    response = client.get("/")
+    html = response.get_data(as_text=True)
+
+    assert response.status_code == 200
+    assert "<title>USETAI: Building Next-Generation AI Solutions</title>" in html
+    assert (
+        "USETAI Technology — Turning Complex Challenges into Intelligent Results."
+        in html
+    )
+    assert (
+        "Our solutions are engineered to deliver measurable impact, operational "
+        "efficiency, and sustainable innovation" in html
+    )
+    assert "Let's Solve Your Most Challenging Problems—Together." in html
+    assert (
+        "Contact USETAI Technology today to discuss your challenges, explore "
+        "innovative solutions" in html
+    )
+
+
 def test_homepage_sets_security_headers() -> None:
     client = create_test_client()
 
