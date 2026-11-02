@@ -57,20 +57,22 @@
     <div class="overlay">
       <header class="hero" aria-labelledby="hero-title">
         <div class="hero-inner">
-          <img class="logo" src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI logo" width="800" height="800" decoding="async" fetchpriority="high" />
-          <h1 id="hero-title">{{ site_title }}</h1>
+          <div class="hero-brand">
+            <img class="logo" src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/logo.svg' }}" alt="" width="240" height="240" decoding="async" fetchpriority="high" />
+            <span>USETAI Technology</span>
+          </div>
+          <p class="hero-eyebrow">Applied AI <span aria-hidden="true">·</span> Cloud Engineering <span aria-hidden="true">·</span> Responsible Delivery</p>
+          <h1 id="hero-title">AI that earns trust—and delivers.</h1>
           <p class="tagline">{{ site_description }}</p>
-          <p class="hero-strap">Enterprise-grade AI, responsible by design: interpretable, secure, and built to scale. <span class="typed-text" data-typed-text aria-hidden="true">Trustworthy intelligence. Built for impact.</span></p>
+          <p class="hero-strap">From strategy through deployment, we build AI around your mission, your people, and the outcomes that matter. <span class="typed-text" data-typed-text aria-hidden="true">Trustworthy intelligence. Built for impact.</span></p>
           <div class="hero-metrics" role="group" aria-label="Explore our website">
-            <div class="metric"><span class="metric-value" data-count="{{ services|length }}">0</span><span class="metric-label">AI solutions</span></div>
+            <div class="metric"><span class="metric-value" data-count="{{ services|length }}">0</span><span class="metric-label">Capabilities</span></div>
             <div class="metric"><span class="metric-value" data-count="{{ industries|length }}">0</span><span class="metric-label">Industries</span></div>
-            <div class="metric"><span class="metric-value" data-count="{{ projects|length }}">0</span><span class="metric-label">Case studies</span></div>
+            <div class="metric"><span class="metric-value" data-count="{{ projects|length }}">0</span><span class="metric-label">Project examples</span></div>
           </div>
           <div class="hero-actions">
-            <a class="btn primary" href="#services" data-tab-link="services">Explore AI Solutions</a>
-            <a class="btn ghost" href="#projects" data-tab-link="projects">View Case Studies</a>
-            <a class="btn outline" href="#contact" data-tab-link="contact">Book a Consultation</a>
-            <a class="btn ghost" href="#contact" data-tab-link="contact">Contact Our Experts</a>
+            <a class="btn primary" href="#contact" data-tab-link="contact">Discuss a project</a>
+            <a class="btn ghost" href="#services" data-tab-link="services">Explore our capabilities</a>
           </div>
         </div>
       </header>
@@ -91,9 +93,9 @@
       <main class="main-content" id="main" tabindex="-1">
         <!-- Mission -->
         <section id="mission-tab" class="tab-content active" role="tabpanel" aria-labelledby="mission-tab-button" tabindex="0">
-          <h2>USETAI Technology — Turning Complex Challenges into Intelligent Results.</h2>
-          <p>USETAI Technology delivers mission-driven, results-oriented AI/ML and cloud solutions that transform complex challenges into measurable outcomes. We empower private enterprises and government agencies with secure, ethical, and scalable Artificial Intelligence, Machine Learning, Generative AI, and cloud technologies. From healthcare innovation and cybersecurity to intelligent automation and mission-critical public-sector operations, we turn complex data into actionable intelligence, streamline operations, strengthen security, and accelerate decision-making.</p>
-          <p>Our solutions are engineered to deliver measurable impact, operational efficiency, and sustainable innovation—helping organizations solve their most challenging problems and achieve mission-critical objectives.</p>
+          <h2>Trustworthy AI. Real-world outcomes.</h2>
+          <p>USETAI partners with government and enterprise teams to design, build, and operationalize secure AI. We bring AI and machine learning, data, and cloud engineering together, with responsible practices built into delivery.</p>
+          <p>From a focused pilot to production-ready platforms, we align each engagement to a clear use case, meaningful outcomes, and the realities of your operating environment.</p>
         </section>
 
         <!-- Services (dynamic) -->
@@ -209,7 +211,8 @@
 
         <!-- Projects / Case studies -->
         <section id="projects-tab" class="tab-content" role="tabpanel" aria-labelledby="projects-tab-button" tabindex="0">
-          <h2 id="projects">Case Studies</h2>
+          <h2 id="projects">Project Examples</h2>
+          <p>Illustrative examples of how applied AI can support complex, high-stakes work.</p>
           <div class="section-toolbar" aria-label="Case study explorer controls">
             <label class="search-field" for="projects-search">
               <span class="search-label">Search case studies</span>
@@ -272,8 +275,8 @@
       <footer class="site-footer" role="contentinfo">
         <div class="footer-inner">
           <div class="company">
-            <img src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/og-image.png' }}" alt="USETAI" width="200" height="128" loading="lazy" decoding="async" />
-            <p>USETAI Technology — Building humane, responsible technology.</p>
+            <img src="{{ SITE_INFO.logo if SITE_INFO is defined else '/static/img/logo.svg' }}" alt="USETAI Technology" width="120" height="120" loading="lazy" decoding="async" />
+            <p>USETAI Technology — Responsible AI, built for impact.</p>
           </div>
           <nav class="footer-nav" aria-label="Footer">
             <a href="/privacy">Privacy Policy</a>

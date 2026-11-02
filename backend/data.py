@@ -2,11 +2,15 @@
 # so it can be edited directly or replaced by a CMS later.
 
 SITE_INFO = {
-    "title": "USETAI: Building Next-Generation AI Solutions",
-    "description": "USETAI develops ethical, scalable AI, ML, Generative AI, and Cloud solutions to solve climate, healthcare, cybersecurity, and public-sector challenges.",
+    "title": "USETAI Technology | Responsible AI, Built for Impact",
+    "description": (
+        "We help government and enterprise teams turn complex data and operations "
+        "into secure, dependable AI designed for real-world outcomes."
+    ),
     "url": "https://usetai.example/",
-    "logo": "/static/img/og-image.png",
-    "social_image_alt": "USETAI Technology brand mark on a modern AI-inspired background",
+    "logo": "/static/img/logo.svg",
+    "social_image": "/static/img/og-image.png",
+    "social_image_alt": "USETAI Technology — responsible AI, built for impact",
 }
 
 CONTACT = {
@@ -18,31 +22,31 @@ SERVICES = [
     {
         "id": "generative-ai",
         "title": "Generative AI & LLMs",
-        "description": "Enterprise copilots, document intelligence, prompt-engineering, multi-agent systems and safe LLM deployment.",
+        "description": "Practical generative AI, from secure knowledge assistants to production-ready applications, designed around your workflows and governance needs.",
         "bullets": [
-            "Business value: Faster knowledge work, improved productivity.",
-            "Tech: LangChain, OpenAI, Llama, Anthropic",
+            "Use-case discovery and solution design",
+            "Evaluation, safeguards, and deployment",
         ],
         "tags": ["Generative AI", "Copilots", "Responsible AI"],
     },
     {
         "id": "rag",
         "title": "Retrieval-Augmented Generation",
-        "description": "Secure semantic search, embeddings, vector DBs and enterprise knowledge assistants.",
+        "description": "Make trusted organizational knowledge easier to find with secure search and AI assistants grounded in approved source material.",
         "bullets": [],
         "tags": ["RAG", "Knowledge Search", "Enterprise Data"],
     },
     {
         "id": "ml-data",
         "title": "Machine Learning & Data Science",
-        "description": "Forecasting, anomaly detection, experimentation, dashboards and model monitoring.",
+        "description": "Turn complex data into useful signals with forecasting, anomaly detection, analytics, and production model monitoring.",
         "bullets": [],
         "tags": ["Forecasting", "Analytics", "MLOps"],
     },
     {
         "id": "cloud",
         "title": "Cloud & Platform Engineering",
-        "description": "Scalable cloud-native platforms on AWS, Azure, GCP; containers and orchestration.",
+        "description": "Build secure, resilient foundations for data and AI with cloud-native architecture, platform engineering, and MLOps.",
         "bullets": [],
         "tags": ["Cloud", "Platform", "Security"],
     },
@@ -69,16 +73,16 @@ INDUSTRIES = [
 PROJECTS = [
     {
         "id": "case-study-1",
-        "title": "AI for Climate Monitoring",
-        "summary": "Applied time-series ML to large-scale climate data to improve forecasting accuracy.",
-        "outcome": "Improved forecast reliability for mission-critical climate planning workflows.",
+        "title": "Climate Forecasting",
+        "summary": "Time-series machine learning applied to climate datasets to support more reliable forecasting and planning.",
+        "outcome": "Designed to help teams make better-informed climate planning decisions.",
         "tags": ["Climate", "Machine Learning", "Forecasting"],
     },
     {
         "id": "case-study-2",
-        "title": "Document Intelligence for Government",
-        "summary": "RAG-based knowledge assistant for citizen-facing services, increasing throughput and accuracy.",
-        "outcome": "Reduced manual document handling time with secure retrieval-based assistance.",
+        "title": "Knowledge Access for Public Services",
+        "summary": "A secure, retrieval-based assistant for public-service documents, designed to improve information access and reduce manual review.",
+        "outcome": "Human-reviewed answers grounded in approved source material.",
         "tags": ["Government", "RAG", "Document AI"],
     },
 ]

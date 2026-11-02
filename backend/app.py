@@ -184,7 +184,9 @@ def index() -> str:
             "site_url": site_data.SITE_INFO.get("url"),
             "social_image_url": build_absolute_url(
                 site_data.SITE_INFO.get("url", ""),
-                site_data.SITE_INFO.get("logo", "/static/img/og-image.png"),
+                site_data.SITE_INFO.get(
+                    "social_image", "/static/img/og-image.png"
+                ),
             ),
             "services": site_data.SERVICES,
             "industries": site_data.INDUSTRIES,

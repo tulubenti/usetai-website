@@ -20,7 +20,8 @@ def test_homepage_exposes_dynamic_search_controls() -> None:
     assert 'id="projects-search"' in html
     assert 'aria-describedby="name-feedback"' in html
     assert "Generative AI &amp; LLMs" in html
-    assert "AI for Climate Monitoring" in html
+    assert "Climate Forecasting" in html
+    assert "AI that earns trust—and delivers." in html
     assert (
         '<meta property="og:image" content="https://usetai.example/static/img/og-image.png" />'
         in html
@@ -67,14 +68,13 @@ def test_homepage_includes_updated_mission_and_contact_content() -> None:
     html = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert "<title>USETAI: Building Next-Generation AI Solutions</title>" in html
     assert (
-        "USETAI Technology — Turning Complex Challenges into Intelligent Results."
-        in html
+        "<title>USETAI Technology | Responsible AI, Built for Impact</title>" in html
     )
+    assert "AI that earns trust—and delivers." in html
     assert (
-        "Our solutions are engineered to deliver measurable impact, operational "
-        "efficiency, and sustainable innovation" in html
+        "From a focused pilot to production-ready platforms, we align each "
+        "engagement to a clear use case" in html
     )
     assert "Let's Solve Your Most Challenging Problems—Together." in html
     assert (
