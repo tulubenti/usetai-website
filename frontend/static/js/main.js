@@ -528,40 +528,10 @@ function setupThemeToggle(themeToggle) {
   });
 }
 
-function setupTypedHero(prefersReducedMotion) {
+function setupTypedHero() {
   const typedText = document.querySelector("[data-typed-text]");
   if (!typedText) return;
-
-  const phrases = [
-    "Trustworthy intelligence. Built for impact.",
-    "Responsible AI. Real-world outcomes.",
-    "Human insight, amplified by technology.",
-  ];
-  typedText.textContent = phrases[0];
-  if (prefersReducedMotion) return;
-
-  let phraseIndex = 0;
-  let characterIndex = phrases[0].length;
-  let deleting = true;
-
-  const typeNextCharacter = () => {
-    const phrase = phrases[phraseIndex];
-    characterIndex += deleting ? -1 : 1;
-    typedText.textContent = phrase.slice(0, characterIndex);
-
-    let delay = deleting ? 32 : 58;
-    if (!deleting && characterIndex === phrase.length) {
-      deleting = true;
-      delay = 1800;
-    } else if (deleting && characterIndex === 0) {
-      deleting = false;
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-      delay = 350;
-    }
-    window.setTimeout(typeNextCharacter, delay);
-  };
-
-  window.setTimeout(typeNextCharacter, 1800);
+  typedText.textContent = "Trustworthy intelligence. Built for impact.";
 }
 
 function setupAnimatedMetrics(prefersReducedMotion) {
